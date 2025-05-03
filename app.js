@@ -1,10 +1,9 @@
-<script>
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('splash').classList.add('fade-out');
-    }, 1200); // 1.2 second delay
-  });
-</script>
+
+window.addEventListener('load', () => {
+   setTimeout(() => {
+    document.getElementById('splash').classList.add('fade-out');
+  }, 1200); // 1.2 second delay
+});
 
 const textarea = document.getElementById('note');
 
