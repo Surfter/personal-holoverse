@@ -51,6 +51,14 @@
           font-family: sans-serif;
           opacity: 0.8;
         }
+        .welcome-text {
+          animation: fadeIn 1s ease 0.3s both;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(5px); }
+          to   { opacity: 0.8; transform: translateY(0); }
+        }
 
         body {
             font-family: sans-serif;
