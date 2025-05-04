@@ -10,7 +10,6 @@ window.addEventListener('load', () => {
 const textarea = document.getElementById('notes');
 if (textarea) {
   textarea.value = localStorage.getItem('myNote') || '';
-
   textarea.addEventListener('input', () => {
     localStorage.setItem('myNote', textarea.value);
   });
@@ -22,21 +21,29 @@ function goToNotepad() {
   document.getElementById('notepad-screen').style.display = 'block';
 }
 
-function goToMenu() {
-  document.getElementById('notepad-screen').style.display = 'none';
-  document.getElementById('menu-screen').style.display = 'block';
-}
-
-// Register service worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-
 function goToTodo() {
   document.getElementById('menu-screen').style.display = 'none';
   document.getElementById('notepad-screen').style.display = 'none';
   document.getElementById('todo-screen').style.display = 'flex';
   loadTodos();
+}
+
+function goToMenu() {
+  document.getElementById('notepad-screen').style.display = 'none';
+  document.getElementById('todo-screen').style.display = 'none';
+  document.getElementById('menu-screen').style.display = 'block';
+}
+
+// To-Do Logic
+function showTodoInput() {
+  document.getElementById('show-input-btn').style.display = 'none';
+  document.getElementById('todo-input-wrapper').style.display = 'flex';
+  document.getElementById('todo-input').focus();
+}
+
+function hideTodoInput() {
+  document.getElementById('todo-input-wrapper').style.display = 'none';
+  document.getElementById('show-input-btn').style.display = 'inline-block';
 }
 
 function addTodo() {
@@ -47,6 +54,7 @@ function addTodo() {
     todos.push({ text: task, done: false });
     localStorage.setItem('todos', JSON.stringify(todos));
     input.value = '';
+    hideTodoInput();
     loadTodos();
   }
 }
@@ -83,21 +91,7 @@ function loadTodos() {
   });
 }
 
-
-function showTodoInput() {
-  document.getElementById('show-input-button').style.display = 'none';
-  document.getElementById('todo-input-wrapper').style.display = 'block';
-  document.getElementById('todo-input').focus();
-}
-
-function addTodo() {
-  const input = document.getElementById('todo-input');
-  const task = input.value.trim();
-  if (task) {
-    const todos = JSON.parse(localStorage.getItem('todos') || '[]');
-    todos.push({ text: task, done: false });
-    localStorage.setItem('todos', JSON.stringify(todos));
-    input.value = '';
-    loadTodos();
-  }
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
 }
