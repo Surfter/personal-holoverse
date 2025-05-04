@@ -1,144 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Notes</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
-    <script defer src="app.js"></script>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            padding: 0;
-        }
-        textarea {
-            width: 100%;
-            height: 80vh;
-            font-size: 1.2em;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-          /* Splash screen styling */
-          #splash {
-            position: fixed;
-            inset: 0;
-            background-color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-          }
-        
-          #splash.fade-out {
-            opacity: 0;
-            pointer-events: none;
-          }
-        .splash-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1em;
-        }
-        
-        .welcome-text {
-          color: white;
-          font-size: 1.2em;
-          font-weight: 300;
-          letter-spacing: 1px;
-          font-family: sans-serif;
-          opacity: 0.8;
-        }
-        .welcome-text {
-          animation: fadeIn 1s ease 0.3s both;
-        }
-        
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(5px); }
-          to   { opacity: 0.8; transform: translateY(0); }
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Personal Notes</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <script defer src="app.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #000000;
+      transition: all 0.3s ease;
+    }
 
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #ffffff;
-            color: #000000;
-            transition: all 0.3s ease;
-        }
-        textarea {
-            width: 100%;
-            height: 80vh;
-            font-size: 1.2em;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 2px solid #cccccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            color: #000000;
-            transition: all 0.3s ease;
-        }        
-        
-        /* DARK MODE 🎨🌙 */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #121212;
-                color: #ffffff;
-            }
-            textarea {
-                background-color: #1e1e1e;
-                color: #ffffff;
-                border-color: #333333;
-            }
-        }
-        #menu-screen, #notepad-screen {
-          padding: 20px;
-        }
-        
-        #menu-screen h1 {
-          font-size: 1.8em;
-          margin-bottom: 20px;
-        }
-        
-        #menu-screen button, #notepad-screen button {
-          font-size: 1.2em;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 12px;
-          background-color: #444;
-          color: white;
-          cursor: pointer;
-          margin-bottom: 20px;
-        }
-        
-        #menu-screen button:hover, #notepad-screen button:hover {
-          background-color: #666;
-        }
+    /* Splash screen styling */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
 
-    </style>
+    #splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1em;
+    }
+
+    .welcome-text {
+      color: white;
+      font-size: 1.2em;
+      font-weight: 300;
+      letter-spacing: 1px;
+      font-family: sans-serif;
+      opacity: 0.8;
+      animation: fadeIn 1s ease 0.3s both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 0.8; transform: translateY(0); }
+    }
+
+    /* Menu */
+    #menu-screen {
+      display: none;
+      padding: 20px;
+    }
+
+    .menu-title {
+      text-align: center;
+      font-size: 2em;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    .tool-button {
+      display: block;
+      margin: 10px auto;
+      padding: 12px 28px;
+      background-color: #0055ff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .tool-button:hover {
+      background-color: #003ecc;
+    }
+
+    .tool-button:disabled {
+      background-color: #888;
+      cursor: default;
+    }
+
+    /* Notepad Screen */
+    .notepad-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 20px;
+    }
+
+    .section-heading {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 70vh;
+      font-size: 1.2em;
+      padding: 15px;
+      box-sizing: border-box;
+      border: 2px solid #cccccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      color: #000000;
+      transition: all 0.3s ease;
+    }
+
+    button {
+      font-size: 1em;
+      margin-top: 20px;
+    }
+
+    /* Dark Mode */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #121212;
+        color: #ffffff;
+      }
+
+      textarea {
+        background-color: #1e1e1e;
+        color: #ffffff;
+        border-color: #333333;
+      }
+
+      .tool-button {
+        background-color: #1e70ff;
+      }
+
+      .tool-button:hover {
+        background-color: #145ccf;
+      }
+    }
+  </style>
 </head>
 <body>
-<!-- Splash screen -->
-<div id="splash">
-  <div class="splash-content">
-    <img src="icon-c.png" alt="logo" width="128" height="128">
-    <p class="welcome-text">welcome.</p>
+  <!-- Splash screen -->
+  <div id="splash">
+    <div class="splash-content">
+      <img src="icon-c.png" alt="logo" width="128" height="128" />
+      <p class="welcome-text">welcome.</p>
+    </div>
   </div>
-</div>
 
-<!-- MENU SCREEN -->
-<div id="menu-screen">
-  <h1>Menu</h1>
-  <button onclick="goToNotepad()">Notepad</button>
-</div>
+  <!-- MENU SCREEN -->
+  <div id="menu-screen">
+    <h1 class="menu-title">Menu</h1>
+    <button class="tool-button" onclick="goToNotepad()">Notepad</button>
+    <button class="tool-button" disabled>WIP</button>
+  </div>
 
-<!-- NOTEPAD SCREEN -->
-<div id="notepad-screen" style="display: none;">
-  <button onclick="goToMenu()">← Back to Menu</button>
-  <textarea id="notes" placeholder="Type your note here..."></textarea>
-</div>
-
+  <!-- NOTEPAD SCREEN -->
+  <div id="notepad-screen" class="notepad-screen">
+    <button onclick="goToMenu()">← Back to Menu</button>
+    <h2 class="section-heading">Notepad</h2>
+    <textarea id="notes" placeholder="Type your note here..."></textarea>
+  </div>
 </body>
 </html>
