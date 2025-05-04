@@ -36,14 +36,14 @@ function goToMenu() {
 
 // To-Do Logic
 function showTodoInput() {
-  document.getElementById('show-input-btn').style.display = 'none';
+  document.getElementById('show-input-button').style.display = 'none';
   document.getElementById('todo-input-wrapper').style.display = 'flex';
   document.getElementById('todo-input').focus();
 }
 
 function hideTodoInput() {
   document.getElementById('todo-input-wrapper').style.display = 'none';
-  document.getElementById('show-input-btn').style.display = 'inline-block';
+  document.getElementById('show-input-button').style.display = 'inline-block';
 }
 
 function addTodo() {
@@ -94,10 +94,5 @@ function loadTodos() {
 // Register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
-}
-
-function hideTodoInput() {
-  document.getElementById('todo-input-wrapper').style.display = 'none';
-  document.getElementById('show-input-button').style.display = 'inline-block';
 }
 
