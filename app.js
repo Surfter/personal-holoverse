@@ -95,3 +95,9 @@ function loadTodos() {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
+
+function hideTodoInput() {
+  document.getElementById('todo-input-wrapper').style.display = 'none';
+  document.getElementById('show-input-button').style.display = 'inline-block';
+}
+
