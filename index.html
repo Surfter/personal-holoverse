@@ -17,7 +17,7 @@
       transition: all 0.3s ease;
     }
 
-    /* Splash screen styling */
+    /* Splash screen */
     #splash {
       position: fixed;
       inset: 0;
@@ -56,39 +56,37 @@
       to   { opacity: 0.8; transform: translateY(0); }
     }
 
-    /* Menu */
+    /* Menu Screen */
     #menu-screen {
       display: none;
-      padding: 20px;
+      padding: 40px 20px;
+      text-align: center;
     }
 
     .menu-title {
-      text-align: center;
       font-size: 2em;
-      margin-top: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 60px;
     }
 
     .tool-button {
-      display: block;
-      margin: 10px auto;
-      padding: 12px 28px;
-      background-color: #0055ff;
-      color: white;
+      background: none;
       border: none;
-      border-radius: 12px;
-      font-size: 1.1em;
-      font-weight: 500;
+      font-size: 1.2em;
+      color: inherit;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      margin: 10px 0;
+      text-transform: lowercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+      transition: opacity 0.2s ease;
     }
 
     .tool-button:hover {
-      background-color: #003ecc;
+      opacity: 0.6;
     }
 
     .tool-button:disabled {
-      background-color: #888;
+      opacity: 0.3;
       cursor: default;
     }
 
@@ -98,12 +96,12 @@
       flex-direction: column;
       align-items: center;
       padding: 40px 20px 20px;
+      text-align: center;
     }
 
     .section-heading {
       font-size: 1.5em;
       margin-bottom: 20px;
-      text-align: center;
     }
 
     textarea {
@@ -120,9 +118,20 @@
       transition: all 0.3s ease;
     }
 
-    button {
+    .back-button {
+      background: none;
+      border: none;
       font-size: 1em;
+      color: inherit;
+      cursor: pointer;
       margin-top: 20px;
+      text-transform: lowercase;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .back-button:hover {
+      opacity: 0.5;
     }
 
     /* Dark Mode */
@@ -136,14 +145,6 @@
         background-color: #1e1e1e;
         color: #ffffff;
         border-color: #333333;
-      }
-
-      .tool-button {
-        background-color: #1e70ff;
-      }
-
-      .tool-button:hover {
-        background-color: #145ccf;
       }
     }
   </style>
@@ -160,15 +161,15 @@
   <!-- MENU SCREEN -->
   <div id="menu-screen">
     <h1 class="menu-title">Menu</h1>
-    <button class="tool-button" onclick="goToNotepad()">Notepad</button>
-    <button class="tool-button" disabled>WIP</button>
+    <button class="tool-button" onclick="goToNotepad()">notepad</button>
+    <button class="tool-button" disabled>wip</button>
   </div>
 
   <!-- NOTEPAD SCREEN -->
   <div id="notepad-screen" class="notepad-screen">
-    <button onclick="goToMenu()">← Back to Menu</button>
-    <h2 class="section-heading">Notepad</h2>
+    <h2 class="section-heading">notepad</h2>
     <textarea id="notes" placeholder="Type your note here..."></textarea>
+    <button class="back-button" onclick="goToMenu()">← back to menu</button>
   </div>
 </body>
 </html>
