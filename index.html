@@ -106,8 +106,6 @@
      .section-heading {
        font-size: 1.5em;
        margin-bottom: 20px;
-       text-decoration: underline;
-       text-underline-offset: 4px;
      }
  
      textarea {
@@ -153,6 +151,28 @@
          border-color: #333333;
        }
      }
+    #todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  font-size: 1.1em;
+}
+
+#todo-list li {
+  margin: 8px 0;
+  transition: all 0.2s ease;
+}
+
+#todo-input {
+  padding: 10px;
+  font-size: 1em;
+  width: 60%;
+  max-width: 300px;
+  margin-bottom: 10px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+}
+
   </style>
 </head>
 <body>
@@ -169,13 +189,21 @@
     <h1 class="menu-title">Menu</h1>
     <button class="tool-button" onclick="goToNotepad()">notepad</button>
     <br>
-    <button class="tool-button" disabled>wip</button>
+    <button class="tool-button" onclick="goToTodo()">to-do list</button>
   </div>
 
   <!-- NOTEPAD SCREEN -->
   <div id="notepad-screen" class="notepad-screen">
     <h2 class="section-heading">Notepad</h2>
     <textarea id="notes" placeholder="Type your note here..."></textarea>
+    <button class="back-button" onclick="goToMenu()">← back to menu</button>
+  </div>
+  <!-- TO-DO SCREEN -->
+  <div id="todo-screen" class="notepad-screen">
+    <h2 class="section-heading">To-Do List</h2>
+    <ul id="todo-list"></ul>
+    <input type="text" id="todo-input" placeholder="Add a task..." />
+    <button onclick="addTodo()">add</button>
     <button class="back-button" onclick="goToMenu()">← back to menu</button>
   </div>
 </body>
