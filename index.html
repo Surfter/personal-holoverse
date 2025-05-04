@@ -169,7 +169,6 @@
       background-color: #f9f9f9;
       color: #000000;
     }
-
     .todo-action-btn {
       background-color: #000000;
       color: #ffffff;
@@ -179,12 +178,13 @@
       cursor: pointer;
       font-size: 1em;
       transition: background-color 0.2s ease;
+      margin: 5px;
     }
-
-
+    
     .todo-action-btn:hover {
       background-color: #333333;
     }
+
     .back-button {
       background: none;
       border: none;
@@ -253,20 +253,26 @@
     <button class="back-button" onclick="goToMenu()">← back to menu</button>
   </div>
 
-  <!-- To-do screen -->
+  <!-- TO-DO SCREEN -->
   <div id="todo-screen" class="notepad-screen">
     <h2 class="section-heading">To-Do List</h2>
     <ul id="todo-list"></ul>
-
-    <button class="todo-action-btn" id="show-input-btn" onclick="showTodoInput()">add a task</button>
-
-    <div id="todo-input-wrapper">
-      <input type="text" id="todo-input" placeholder="Your task..." />
-      <button class="todo-action-btn" onclick="addTodo()">add</button>
-      <button class="todo-action-btn" onclick="hideTodoInput()">cancel</button>
+  
+    <!-- Add Task Button -->
+    <button id="show-input-button" class="todo-action-btn" onclick="showTodoInput()">add a task</button>
+  
+    <!-- Task Input Section -->
+    <div id="todo-input-wrapper" style="display:none;">
+      <input type="text" id="todo-input" placeholder="Add a task..." />
+      <div style="margin-top: 10px;">
+        <button class="todo-action-btn" onclick="addTodo()">add</button>
+        <button class="todo-action-btn" onclick="hideTodoInput()">cancel</button>
+      </div>
     </div>
-
+  
     <button class="back-button" onclick="goToMenu()">← back to menu</button>
+  </div>
+
   </div>
 </body>
 </html>
