@@ -8,7 +8,225 @@
   <link rel="apple-touch-icon" href="icon.png" />
   <script defer src="app.js"></script>
   <style>
-    /* === [STYLE OMITTED HERE TO KEEP THIS CLEAN — Use your existing CSS] === */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #000000;
+      transition: all 0.3s ease;
+    }
+
+    #splash {
+      position: fixed;
+      inset: 0;
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    #splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1em;
+    }
+
+    .welcome-text {
+      color: white;
+      font-size: 1.2em;
+      font-weight: 300;
+      letter-spacing: 1px;
+      font-family: sans-serif;
+      opacity: 0.8;
+      animation: fadeIn 1s ease 0.3s both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 0.8; transform: translateY(0); }
+    }
+
+    #menu-screen {
+      display: none;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .menu-title {
+      font-size: 2em;
+      margin-bottom: 60px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      color: #8b0000;
+    }
+
+    .tool-button {
+      background: none;
+      border: none;
+      font-size: 1.2em;
+      color: inherit;
+      cursor: pointer;
+      margin: 10px 0;
+      text-transform: lowercase;
+      font-weight: 500;
+      transition: opacity 0.2s ease;
+    }
+
+    .tool-button:hover {
+      opacity: 0.6;
+    }
+
+    .notepad-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 20px;
+      text-align: center;
+    }
+
+    .section-heading {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #8b0000;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 70vh;
+      font-size: 1.2em;
+      padding: 15px;
+      box-sizing: border-box;
+      border: 2px solid #cccccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      color: #000000;
+      transition: all 0.3s ease;
+    }
+
+    #todo-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      font-size: 1.1em;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    #todo-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f2f2f2;
+      padding: 8px 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .todo-text {
+      flex-grow: 1;
+      cursor: pointer;
+    }
+
+    .todo-text.done {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      font-size: 1.2em;
+      color: #8b0000;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    #todo-input-wrapper {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    #todo-input {
+      padding: 10px;
+      font-size: 1em;
+      width: 60%;
+      max-width: 300px;
+      border: 2px solid #cccccc;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      color: #000000;
+    }
+
+    .todo-action-btn {
+      background-color: #000000;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95em;
+    }
+
+    .todo-action-btn:hover {
+      opacity: 0.8;
+    }
+
+    .back-button {
+      background: none;
+      border: none;
+      font-size: 1em;
+      color: inherit;
+      cursor: pointer;
+      margin-top: 20px;
+      text-transform: lowercase;
+      opacity: 0.7;
+    }
+
+    .back-button:hover {
+      opacity: 0.5;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #121212;
+        color: #ffffff;
+      }
+
+      textarea,
+      #todo-input {
+        background-color: #1e1e1e;
+        color: #ffffff;
+        border-color: #333333;
+      }
+
+      #todo-list li {
+        background-color: #1e1e1e;
+        border: 1px solid #333333;
+      }
+
+      .delete-btn {
+        color: #ff6666;
+      }
+
+      .todo-action-btn {
+        background-color: #ffffff;
+        color: #000000;
+      }
+    }
   </style>
 </head>
 <body>
@@ -20,7 +238,7 @@
     </div>
   </div>
 
-  <!-- MENU SCREEN -->
+  <!-- Menu screen -->
   <div id="menu-screen">
     <h1 class="menu-title">Menu</h1>
     <button class="tool-button" onclick="goToNotepad()">notepad</button>
@@ -28,21 +246,21 @@
     <button class="tool-button" onclick="goToTodo()">to-do list</button>
   </div>
 
-  <!-- NOTEPAD SCREEN -->
+  <!-- Notepad screen -->
   <div id="notepad-screen" class="notepad-screen">
     <h2 class="section-heading">Notepad</h2>
     <textarea id="notes" placeholder="Type your note here..."></textarea>
     <button class="back-button" onclick="goToMenu()">← back to menu</button>
   </div>
 
-  <!-- TO-DO SCREEN -->
+  <!-- To-do screen -->
   <div id="todo-screen" class="notepad-screen">
     <h2 class="section-heading">To-Do List</h2>
     <ul id="todo-list"></ul>
 
     <button class="todo-action-btn" id="show-input-btn" onclick="showTodoInput()">add a task</button>
 
-    <div id="todo-input-wrapper" style="display:none;">
+    <div id="todo-input-wrapper">
       <input type="text" id="todo-input" placeholder="Your task..." />
       <button class="todo-action-btn" onclick="addTodo()">add</button>
       <button class="todo-action-btn" onclick="hideTodoInput()">cancel</button>
