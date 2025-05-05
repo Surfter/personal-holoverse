@@ -2,13 +2,12 @@
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('splash').classList.add('fade-out');
+    const menu = document.getElementById('menu-screen');
+    menu.style.display = 'block';
+    menu.classList.add('screen-animate');
     setTimeout(() => {
-      const menu = document.getElementById('menu-screen');
-      menu.style.display = 'block';
-      menu.classList.add('screen-animate');
-      const radial = document.getElementById('radial-menu-container');
-      radial.style.visibility = 'visible';
-    }, 500);
+      document.getElementById('radial-menu-container').classList.add('visible');
+    }, 300); 
   }, 1200);
 });
 
