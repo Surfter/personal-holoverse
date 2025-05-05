@@ -118,3 +118,27 @@ function loadTodos() {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
+
+const logoBtn = document.getElementById('logo-button');
+const radialMenu = document.getElementById('radial-menu');
+
+logoBtn.addEventListener('click', () => {
+  radialMenu.classList.toggle('active');
+  radialMenu.classList.toggle('hidden');
+});
+
+// Navigate to screens on click
+document.querySelectorAll('.menu-item').forEach(button => {
+  const target = button.dataset.target;
+  if (target) {
+    button.addEventListener('click', () => {
+      radialMenu.classList.remove('active');
+      setTimeout(() => {
+        goToMenu(); // Reset to menu first
+        if (target === 'notepad-screen') goToNotepad();
+        else if (target === 'todo-screen') goToTodo();
+      }, 300);
+    });
+  }
+});
+
