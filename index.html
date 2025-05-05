@@ -326,6 +326,72 @@ textarea,
 .tool-button:nth-child(2) {
   animation-delay: 200ms;
 }
+#radial-menu-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+#logo-button {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 24px;
+  background-color: #111;
+  color: red;
+  border: 2px solid red;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+#radial-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.menu-item {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #222;
+  color: white;
+  border: 2px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+/* When menu is shown */
+#radial-menu.active .menu-item {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#radial-menu.active .menu-item:nth-child(1) {
+  transform: translate(-50%, -100px) scale(1);
+}
+#radial-menu.active .menu-item:nth-child(2) {
+  transform: translate(86px, -50px) scale(1);
+}
+#radial-menu.active .menu-item:nth-child(3) {
+  transform: translate(86px, 50px) scale(1);
+}
+#radial-menu.active .menu-item:nth-child(4) {
+  transform: translate(-50%, 100px) scale(1);
+}
 
 
 </style>
@@ -346,6 +412,16 @@ textarea,
     <br>
     <button class="tool-button" onclick="goToTodo()">to-do list</button>
   </div>
+
+  <div id="radial-menu-container">
+  <button id="logo-button">DS</button>
+  <div id="radial-menu" class="hidden">
+    <button class="menu-item" data-target="notepad-screen">📝</button>
+    <button class="menu-item" data-target="todo-screen">✅</button>
+    <button class="menu-item placeholder">📁</button>
+    <button class="menu-item placeholder">⚙️</button>
+  </div>
+</div>
 
   <!-- Notepad screen -->
   <div id="notepad-screen" class="notepad-screen">
