@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const radialMenu = document.getElementById("radial-menu");
   const items = radialMenu.querySelectorAll(".menu-item");
 
-  // Position each menu item in a circle
+  // Distribute buttons evenly in a circle
   const angleStep = 360 / items.length;
   items.forEach((item, index) => {
     const angle = index * angleStep;
@@ -144,3 +144,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
