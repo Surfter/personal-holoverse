@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const radialMenu = document.getElementById("radial-menu");
   const items = radialMenu.querySelectorAll(".menu-item");
 
-  // Animate radial positions
+  // Position each menu item in a circle
   const angleStep = 360 / items.length;
   items.forEach((item, index) => {
     const angle = index * angleStep;
@@ -137,7 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener('click', () => {
         radialMenu.classList.remove('active');
         setTimeout(() => {
-          goToMenu();
           if (target === 'notepad-screen') goToNotepad();
           if (target === 'todo-screen') goToTodo();
         }, 300);
