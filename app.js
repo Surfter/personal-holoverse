@@ -6,11 +6,11 @@ window.addEventListener('load', () => {
       const menu = document.getElementById('menu-screen');
       menu.style.display = 'block';
       menu.classList.add('screen-animate');
-      document.getElementById('radial-menu-container').style.visibility = 'visible';
-    }, 500); 
+      const radial = document.getElementById('radial-menu-container');
+      radial.style.visibility = 'visible';
+    }, 500);
   }, 1200);
 });
-
 
 // Notepad logic
 const textarea = document.getElementById('notes');
