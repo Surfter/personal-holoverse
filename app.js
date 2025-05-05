@@ -67,6 +67,10 @@ function loadTodos() {
   todos.forEach((todo, index) => {
     const li = document.createElement('li');
 
+    const icon = document.createElement('span');
+    icon.className = 'todo-icon';
+    icon.textContent = '📝';
+    
     const span = document.createElement('span');
     span.className = 'todo-text' + (todo.done ? ' done' : '');
     span.textContent = todo.text;
