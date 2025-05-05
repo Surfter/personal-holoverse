@@ -60,10 +60,10 @@
   display: none;
   padding: 40px 20px;
   text-align: center;
-  position: relative;    
-  min-height: 100vh;     
-  overflow: hidden;     
+  position: relative;
+  min-height: 100vh;
 }
+
 
   .menu-title {
     font-size: 2em;
@@ -329,7 +329,7 @@ textarea,
   animation-delay: 200ms;
 }
 #radial-menu-container {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -430,9 +430,12 @@ textarea,
       <p class="welcome-text">welcome.</p>
     </div>
   </div>
+
   
-  <!-- Radial Menu -->
-  <div id="radial-menu-container" style="visibility: hidden; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  <!-- Menu screen -->
+  <div id="menu-screen">
+    <h1 class="menu-title"></h1>
+      <div id="radial-menu-container" style="visibility: hidden; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
   <button id="logo-button">
     <img src="icon-c.png" alt="logo" />
   </button>
@@ -443,10 +446,6 @@ textarea,
     <button class="menu-item">⚙️</button>
   </div>
 </div>
-  
-  <!-- Menu screen -->
-  <div id="menu-screen">
-    <h1 class="menu-title"></h1>
   </div>
 
   <!-- Notepad screen -->
