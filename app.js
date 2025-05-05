@@ -145,3 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.getElementById('logo-button').addEventListener('click', function () {
+  this.classList.remove('pulsing'); // reset if it's mid-animation
+  void this.offsetWidth; // force reflow to restart animation
+  this.classList.add('pulsing');
+});
