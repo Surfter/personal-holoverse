@@ -84,10 +84,14 @@ function loadTodos() {
     delBtn.className = 'delete-btn';
     delBtn.textContent = '×';
     delBtn.onclick = () => {
-      todos.splice(index, 1);
-      localStorage.setItem('todos', JSON.stringify(todos));
-      loadTodos();
+      li.classList.add('todo-pop-out');
+      setTimeout(() => {
+        todos.splice(index, 1);
+        localStorage.setItem('todos', JSON.stringify(todos));
+        loadTodos();
+      }, 300); 
     };
+
 
     li.appendChild(icon);
     li.appendChild(span);
