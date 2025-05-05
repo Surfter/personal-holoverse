@@ -2,11 +2,15 @@
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('splash').classList.add('fade-out');
-    const menu = document.getElementById('menu-screen');
-    menu.style.display = 'block';
-    menu.classList.add('screen-animate');
+    setTimeout(() => {
+      const menu = document.getElementById('menu-screen');
+      menu.style.display = 'block';
+      menu.classList.add('screen-animate');
+      document.getElementById('radial-menu-container').style.visibility = 'visible';
+    }, 500); 
   }, 1200);
 });
+
 
 // Notepad logic
 const textarea = document.getElementById('notes');
