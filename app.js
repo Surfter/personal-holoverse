@@ -1,15 +1,14 @@
-// Fade out splash and show menu
+// Splash screen logic
 window.addEventListener('load', () => {
   setTimeout(() => {
-    const splash = document.getElementById('splash');
-    splash.classList.add('fade-out');
+    document.getElementById('splash').classList.add('fade-out');
     const menu = document.getElementById('menu-screen');
     menu.style.display = 'block';
     menu.classList.add('screen-animate');
   }, 1200);
 });
 
-// Set up note saving
+// Notepad logic
 const textarea = document.getElementById('notes');
 if (textarea) {
   textarea.value = localStorage.getItem('myNote') || '';
@@ -18,16 +17,14 @@ if (textarea) {
   });
 }
 
-// Helper: show screen with animation
+// Screen navigation helpers
 function showScreen(screenId) {
   const screen = document.getElementById(screenId);
   screen.style.display = screenId === 'todo-screen' ? 'flex' : 'block';
   screen.classList.add('screen-animate');
-  // Optional: remove the class after animation ends
   setTimeout(() => screen.classList.remove('screen-animate'), 400);
 }
 
-// Navigation functions
 function goToNotepad() {
   document.getElementById('menu-screen').style.display = 'none';
   showScreen('notepad-screen');
@@ -46,7 +43,7 @@ function goToMenu() {
   showScreen('menu-screen');
 }
 
-// To-Do Logic
+// To-Do logic
 function showTodoInput() {
   document.getElementById('show-input-button').style.display = 'none';
   document.getElementById('todo-input-wrapper').style.display = 'flex';
@@ -98,13 +95,11 @@ function loadTodos() {
     delBtn.textContent = '×';
     delBtn.onclick = () => {
       li.classList.add('todo-pop-out');
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          todos.splice(index, 1);
-          localStorage.setItem('todos', JSON.stringify(todos));
-          loadTodos();
-        }, 300);
-      });
+      setTimeout(() => {
+        todos.splice(index, 1);
+        localStorage.setItem('todos', JSON.stringify(todos));
+        loadTodos();
+      }, 300);
     };
 
     li.appendChild(icon);
@@ -114,51 +109,28 @@ function loadTodos() {
   });
 }
 
-// Register service worker
+// Service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
 
-const logoBtn = document.getElementById('logo-button');
-const radialMenu = document.getElementById('radial-menu');
-
-logoBtn.addEventListener('click', () => {
-  radialMenu.classList.toggle('active');
-  radialMenu.classList.toggle('hidden');
-});
-
-// Navigate to screens on click
-document.querySelectorAll('.menu-item').forEach(button => {
-  const target = button.dataset.target;
-  if (target) {
-    button.addEventListener('click', () => {
-      radialMenu.classList.remove('active');
-      setTimeout(() => {
-        goToMenu(); // Reset to menu first
-        if (target === 'notepad-screen') goToNotepad();
-        else if (target === 'todo-screen') goToTodo();
-      }, 300);
-    });
-  }
-});
-
+// Radial menu logic
 document.addEventListener("DOMContentLoaded", () => {
   const logoButton = document.getElementById("logo-button");
   const radialMenu = document.getElementById("radial-menu");
   const items = radialMenu.querySelectorAll(".menu-item");
 
-  logoButton.addEventListener("click", () => {
-    radialMenu.classList.toggle("active");
-  });
-
-  // Distribute buttons evenly
+  // Animate radial positions
   const angleStep = 360 / items.length;
   items.forEach((item, index) => {
     const angle = index * angleStep;
     item.style.setProperty('--angle', `${angle}deg`);
   });
 
-  // Navigation
+  logoButton.addEventListener("click", () => {
+    radialMenu.classList.toggle("active");
+  });
+
   items.forEach(btn => {
     const target = btn.dataset.target;
     if (target) {
