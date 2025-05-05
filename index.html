@@ -335,8 +335,12 @@ textarea,
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
-
+#radial-menu-container.visible {
+  opacity: 1;
+}
 #logo-button {
   width: 80px;
   height: 80px;
