@@ -2,14 +2,17 @@
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('splash').classList.add('fade-out');
+
     const menu = document.getElementById('menu-screen');
     menu.style.display = 'block';
     menu.classList.add('screen-animate');
+
     setTimeout(() => {
       document.getElementById('radial-menu-container').classList.add('visible');
-    }, 300); 
+    }, 300); // Short delay helps smooth layout
   }, 1200);
 });
+
 
 // Notepad logic
 const textarea = document.getElementById('notes');
