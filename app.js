@@ -66,6 +66,7 @@ function loadTodos() {
 
   todos.forEach((todo, index) => {
     const li = document.createElement('li');
+    li.classList.add('todo-pop-in');
 
     const icon = document.createElement('span');
     icon.className = 'todo-icon';
