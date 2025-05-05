@@ -359,6 +359,8 @@ textarea,
 
 .menu-item {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -370,20 +372,17 @@ textarea,
   justify-content: center;
   font-size: 24px;
   opacity: 0;
-  transform: scale(0);
-  transition: all 0.3s ease;
+  transform: translate(-50%, -50%) scale(0); /* Centered + hidden */
+  transform-origin: center center;
+  transition: transform 0.4s ease, opacity 0.3s ease;
   pointer-events: auto;
 }
 
-/* When menu is shown */
 #radial-menu.active .menu-item {
   opacity: 1;
-  transform: scale(1);
+  transform: translate(-50%, -50%) rotate(var(--angle)) translate(100px) rotate(calc(-1 * var(--angle)));
 }
-#radial-menu.active .menu-item {
-  opacity: 1;
-  transform: scale(1) rotate(var(--angle)) translate(100px) rotate(calc(-1 * var(--angle)));
-}
+
 #logo-button img {
   width: 100%;
   height: 100%;
