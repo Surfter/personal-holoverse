@@ -69,7 +69,7 @@ function loadTodos() {
 
     const icon = document.createElement('span');
     icon.className = 'todo-icon';
-    icon.textContent = '📝';
+    icon.textContent = '📜';
     
     const span = document.createElement('span');
     span.className = 'todo-text' + (todo.done ? ' done' : '');
@@ -89,6 +89,7 @@ function loadTodos() {
       loadTodos();
     };
 
+    li.appendChild(icon);
     li.appendChild(span);
     li.appendChild(delBtn);
     list.appendChild(li);
