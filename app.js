@@ -1,9 +1,12 @@
 // Fade out splash and show menu
 window.addEventListener('load', () => {
   setTimeout(() => {
-    document.getElementById('splash').classList.add('fade-out');
-    document.getElementById('menu-screen').style.display = 'block';
-  }, 1200); // 1.2 second delay
+    const splash = document.getElementById('splash');
+    splash.classList.add('fade-out');
+    const menu = document.getElementById('menu-screen');
+    menu.style.display = 'block';
+    menu.classList.add('screen-animate');
+  }, 1200);
 });
 
 // Set up note saving
@@ -15,23 +18,32 @@ if (textarea) {
   });
 }
 
+// Helper: show screen with animation
+function showScreen(screenId) {
+  const screen = document.getElementById(screenId);
+  screen.style.display = screenId === 'todo-screen' ? 'flex' : 'block';
+  screen.classList.add('screen-animate');
+  // Optional: remove the class after animation ends
+  setTimeout(() => screen.classList.remove('screen-animate'), 400);
+}
+
 // Navigation functions
 function goToNotepad() {
   document.getElementById('menu-screen').style.display = 'none';
-  document.getElementById('notepad-screen').style.display = 'block';
+  showScreen('notepad-screen');
 }
 
 function goToTodo() {
   document.getElementById('menu-screen').style.display = 'none';
   document.getElementById('notepad-screen').style.display = 'none';
-  document.getElementById('todo-screen').style.display = 'flex';
+  showScreen('todo-screen');
   loadTodos();
 }
 
 function goToMenu() {
   document.getElementById('notepad-screen').style.display = 'none';
   document.getElementById('todo-screen').style.display = 'none';
-  document.getElementById('menu-screen').style.display = 'block';
+  showScreen('menu-screen');
 }
 
 // To-Do Logic
@@ -71,7 +83,7 @@ function loadTodos() {
     const icon = document.createElement('span');
     icon.className = 'todo-icon';
     icon.textContent = '📜';
-    
+
     const span = document.createElement('span');
     span.className = 'todo-text' + (todo.done ? ' done' : '');
     span.textContent = todo.text;
@@ -91,7 +103,7 @@ function loadTodos() {
           todos.splice(index, 1);
           localStorage.setItem('todos', JSON.stringify(todos));
           loadTodos();
-        }, 300); 
+        }, 300);
       });
     };
 
@@ -106,4 +118,3 @@ function loadTodos() {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
-
