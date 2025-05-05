@@ -85,13 +85,14 @@ function loadTodos() {
     delBtn.textContent = '×';
     delBtn.onclick = () => {
       li.classList.add('todo-pop-out');
-      setTimeout(() => {
-        todos.splice(index, 1);
-        localStorage.setItem('todos', JSON.stringify(todos));
-        loadTodos();
-      }, 300); 
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          todos.splice(index, 1);
+          localStorage.setItem('todos', JSON.stringify(todos));
+          loadTodos();
+        }, 300); 
+      });
     };
-
 
     li.appendChild(icon);
     li.appendChild(span);
