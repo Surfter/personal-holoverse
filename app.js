@@ -142,3 +142,34 @@ document.querySelectorAll('.menu-item').forEach(button => {
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const logoButton = document.getElementById("logo-button");
+  const radialMenu = document.getElementById("radial-menu");
+  const items = radialMenu.querySelectorAll(".menu-item");
+
+  logoButton.addEventListener("click", () => {
+    radialMenu.classList.toggle("active");
+  });
+
+  // Distribute buttons evenly
+  const angleStep = 360 / items.length;
+  items.forEach((item, index) => {
+    const angle = index * angleStep;
+    item.style.setProperty('--angle', `${angle}deg`);
+  });
+
+  // Navigation
+  items.forEach(btn => {
+    const target = btn.dataset.target;
+    if (target) {
+      btn.addEventListener('click', () => {
+        radialMenu.classList.remove('active');
+        setTimeout(() => {
+          goToMenu();
+          if (target === 'notepad-screen') goToNotepad();
+          if (target === 'todo-screen') goToTodo();
+        }, 300);
+      });
+    }
+  });
+});
