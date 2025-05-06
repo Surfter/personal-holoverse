@@ -159,3 +159,16 @@ logoButton.addEventListener('click', function () {
   this.classList.add('pulsing');              // add class to play animation
 });
 
+
+function changeStat(stat, amount) {
+  const statElement = document.querySelector(`.stat[data-stat="${stat}"] span`);
+  let currentValue = parseInt(statElement.textContent);
+  if (isNaN(amount)) return;
+  statElement.textContent = currentValue + parseInt(amount);
+}
+
+function promptAmount() {
+  let input = prompt("Enter amount to add:");
+  return parseInt(input);
+}
+
