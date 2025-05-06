@@ -172,3 +172,9 @@ function promptAmount() {
   return parseInt(input);
 }
 
+function toggleStatMenu() {
+  const menu = document.getElementById("stat-menu");
+  menu.classList.toggle("hidden");
+}
+
+
