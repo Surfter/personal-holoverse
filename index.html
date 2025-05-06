@@ -7,7 +7,6 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon.png" />
   <script defer src="app.js"></script>
-  <style>
 <style>
   body {
     font-family: sans-serif;
@@ -425,9 +424,50 @@ textarea,
 #logo-button.pulsing {
   animation: pulse 0.3s ease;
 }
+#stat-menu.menu {
+  background: #0d0d0d;
+  border: 2px solid #ff1a1a;
+  padding: 20px;
+  width: 300px;
+  color: #fff;
+  font-family: monospace;
+  border-radius: 12px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
 
+#stat-menu h2 {
+  margin-top: 0;
+  color: #ff1a1a;
+  text-align: center;
+}
+
+.stat {
+  margin-bottom: 15px;
+}
+
+.stat label {
+  display: inline-block;
+  width: 140px;
+}
+
+.stat button {
+  background: #ff1a1a;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.hidden {
+  display: none;
+}
 </style>
-  </style>
 </head>
 <body>
   <!-- Splash screen -->
@@ -476,5 +516,46 @@ textarea,
     </div>
     <button class="back-button" onclick="goToMenu()">← back to menu</button>
   </div>
+  
+  <!-- STAT SCREEN -->
+  <div id="stat-menu" class="menu hidden">
+  <h2>Stats</h2>
+  <div class="stat" data-stat="strength">
+    <label>Strength: <span>10</span></label>
+    <button onclick="changeStat('strength', 1)">+1</button>
+    <button onclick="changeStat('strength', promptAmount())">+X</button>
+  </div>
+  <div class="stat" data-stat="endurance">
+    <label>Endurance: <span>10</span></label>
+    <button onclick="changeStat('endurance', 1)">+1</button>
+    <button onclick="changeStat('endurance', promptAmount())">+X</button>
+  </div>
+  <div class="stat" data-stat="agility">
+    <label>Agility: <span>10</span></label>
+    <button onclick="changeStat('agility', 1)">+1</button>
+    <button onclick="changeStat('agility', promptAmount())">+X</button>
+  </div>
+  <div class="stat" data-stat="stamina">
+    <label>Stamina: <span>10</span></label>
+    <button onclick="changeStat('stamina', 1)">+1</button>
+    <button onclick="changeStat('stamina', promptAmount())">+X</button>
+  </div>
+      <div class="stat" data-stat="intelligence">
+    <label>Intelligence: <span>10</span></label>
+    <button onclick="changeStat('intelligence', 1)">+1</button>
+    <button onclick="changeStat('intelligence', promptAmount())">+X</button>
+  </div>
+      <div class="stat" data-stat="willpower">
+    <label>Willpower: <span>10</span></label>
+    <button onclick="changeStat('willpower', 1)">+1</button>
+    <button onclick="changeStat('willpower', promptAmount())">+X</button>
+  </div>
+      <div class="stat" data-stat="spirit">
+    <label>Spirit: <span>10</span></label>
+    <button onclick="changeStat('spirit', 1)">+1</button>
+    <button onclick="changeStat('spirit', promptAmount())">+X</button>
+  </div>
+</div>
+
 </body>
 </html>
