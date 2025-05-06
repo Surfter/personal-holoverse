@@ -467,6 +467,41 @@ textarea,
 .hidden {
   display: none;
 }
+  #stat-screen {
+  background: #1a1a1a;
+  color: #f44336;
+  padding: 20px;
+}
+
+.stat-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  background: #2a2a2a;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.stat-item input {
+  width: 60px;
+  background: #1a1a1a;
+  color: #f44336;
+  border: none;
+  border-bottom: 2px solid #f44336;
+  text-align: center;
+}
+
 </style>
 </head>
 <body>
@@ -489,7 +524,7 @@ textarea,
   <div id="radial-menu">
     <button class="menu-item" data-target="notepad-screen">📝</button>
     <button class="menu-item" data-target="todo-screen">📜</button>
-    <button class="menu-item" onclick="toggleStatMenu()">📊</button>
+    <button class="menu-item" data-target="stat-screen">🧠</button>
     <button class="menu-item">⚙️</button>
   </div>
 </div>
@@ -516,46 +551,46 @@ textarea,
     </div>
     <button class="back-button" onclick="goToMenu()">← back to menu</button>
   </div>
-  
-  <!-- STAT SCREEN -->
-  <div id="stat-menu" class="menu hidden">
-  <h2>Stats</h2>
-  <div class="stat" data-stat="strength">
-    <label>Strength: <span>10</span></label>
-    <button onclick="changeStat('strength', 1)">+1</button>
-    <button onclick="changeStat('strength', promptAmount())">+X</button>
-  </div>
-  <div class="stat" data-stat="endurance">
-    <label>Endurance: <span>10</span></label>
-    <button onclick="changeStat('endurance', 1)">+1</button>
-    <button onclick="changeStat('endurance', promptAmount())">+X</button>
-  </div>
-  <div class="stat" data-stat="agility">
-    <label>Agility: <span>10</span></label>
-    <button onclick="changeStat('agility', 1)">+1</button>
-    <button onclick="changeStat('agility', promptAmount())">+X</button>
-  </div>
-  <div class="stat" data-stat="stamina">
-    <label>Stamina: <span>10</span></label>
-    <button onclick="changeStat('stamina', 1)">+1</button>
-    <button onclick="changeStat('stamina', promptAmount())">+X</button>
-  </div>
-      <div class="stat" data-stat="intelligence">
-    <label>Intelligence: <span>10</span></label>
-    <button onclick="changeStat('intelligence', 1)">+1</button>
-    <button onclick="changeStat('intelligence', promptAmount())">+X</button>
-  </div>
-      <div class="stat" data-stat="willpower">
-    <label>Willpower: <span>10</span></label>
-    <button onclick="changeStat('willpower', 1)">+1</button>
-    <button onclick="changeStat('willpower', promptAmount())">+X</button>
-  </div>
-      <div class="stat" data-stat="spirit">
-    <label>Spirit: <span>10</span></label>
-    <button onclick="changeStat('spirit', 1)">+1</button>
-    <button onclick="changeStat('spirit', promptAmount())">+X</button>
+
+  <!-- Stat Menu Screen -->
+<div id="stat-screen" class="screen hidden">
+  <h1 class="stat-title">Stats</h1>
+  <div id="stat-list">
+    <div class="stat-item">
+      <span>Strength:</span>
+      <input type="number" value="5" />
+    </div>
+        <div class="stat-item">
+      <span>Endurance:</span>
+      <input type="number" value="4" />
+    </div>
+        <div class="stat-item">
+      <span>Agility:</span>
+      <input type="number" value="2" />
+    </div>
+        <div class="stat-item">
+      <span>Stamina:</span>
+      <input type="number" value="4" />
+    </div>
+      <div class="stat-item">
+      <span>Willpower:</span>
+      <input type="number" value="7" />
+    </div>
+      <div class="stat-item">
+      <span>Spirit:</span>
+      <input type="number" value="3" />
+    </div>
+    <div class="stat-item">
+      <span>Intelligence:</span>
+      <input type="number" value="7" />
+    </div>
+    <div class="stat-item">
+      <span>Charisma:</span>
+      <input type="number" value="3" />
+    </div>
   </div>
 </div>
 
+  
 </body>
 </html>
