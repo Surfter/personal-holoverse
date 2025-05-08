@@ -24,12 +24,19 @@ if (textarea) {
 }
 
 // Screen navigation helpers
-function showScreen(screenId) {
-  const screen = document.getElementById(screenId);
-  screen.style.display = screenId === 'todo-screen' ? 'flex' : 'block';
-  screen.classList.add('screen-animate');
-  setTimeout(() => screen.classList.remove('screen-animate'), 400);
+function showScreen(targetId) {
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(screen => {
+    if (screen.id === targetId) {
+      screen.classList.remove('hidden');
+      screen.classList.add('screen-animate');
+    } else {
+      screen.classList.add('hidden');
+      screen.classList.remove('screen-animate');
+    }
+  });
 }
+
 
 function goToNotepad() {
   document.getElementById('menu-screen').style.display = 'none';
