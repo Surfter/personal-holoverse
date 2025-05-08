@@ -186,30 +186,42 @@ function toggleStatMenu() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Grabs all radial menu buttons with a 'data-target' attribute
-  const menuButtons = document.querySelectorAll(".menu-item");
+  const logoButton = document.getElementById("logo-button");
+  const radialMenu = document.getElementById("radial-menu");
+  const items = radialMenu.querySelectorAll(".menu-item");
 
-  // Add click event listeners to each button
-  menuButtons.forEach(button => {
-    const targetId = button.dataset.target;
+  // Distribute buttons evenly in a circle
+  const angleStep = 360 / items.length;
+  items.forEach((item, index) => {
+    const angle = index * angleStep;
+    item.style.setProperty('--angle', `${angle}deg`);
+  });
 
-    // Ensure the button actually has a target screen ID
-    if (targetId) {
-      button.addEventListener("click", () => {
-        // Step 1: Hide all screens (notepad, stats, etc.)
-        const allScreens = document.querySelectorAll(".notepad-screen, .screen");
+  logoButton.addEventListener("click", () => {
+    radialMenu.classList.toggle("active");
+  });
+
+  items.forEach(btn => {
+    const target = btn.dataset.target;
+    if (target) {
+      btn.addEventListener("click", () => {
+        radialMenu.classList.remove("active");
+
+        // Hide all screens
+        const allScreens = document.querySelectorAll(".screen");
         allScreens.forEach(screen => {
           screen.style.display = "none";
         });
 
-        // Step 2: Show the target screen by ID
-        const targetScreen = document.getElementById(targetId);
+        // Show the target screen
+        const targetScreen = document.getElementById(target);
         if (targetScreen) {
-          targetScreen.style.display = "flex"; // Or 'block' depending on your layout
+          targetScreen.style.display = "flex";
         } else {
-          console.warn(`No screen found with ID "${targetId}"`);
+          console.warn(`No screen found with ID "${target}"`);
         }
       });
     }
   });
 });
+
