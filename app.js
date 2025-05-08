@@ -127,22 +127,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
 
-// Radial menu logic
-document.addEventListener("DOMContentLoaded", () => {
-  const logoButton = document.getElementById("logo-button");
-  const radialMenu = document.getElementById("radial-menu");
-  const items = radialMenu.querySelectorAll(".menu-item");
 
-  // Distribute buttons evenly in a circle
-  const angleStep = 360 / items.length;
-  items.forEach((item, index) => {
-    const angle = index * angleStep;
-    item.style.setProperty('--angle', `${angle}deg`);
-  });
-
-  logoButton.addEventListener("click", () => {
-    radialMenu.classList.toggle("active");
-  });
 
   items.forEach(btn => {
     const target = btn.dataset.target;
@@ -184,26 +169,32 @@ function toggleStatMenu() {
   menu.classList.toggle("hidden");
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const logoButton = document.getElementById("logo-button");
   const radialMenu = document.getElementById("radial-menu");
-  const items = radialMenu.querySelectorAll(".menu-item");
+  const menuItems = radialMenu.querySelectorAll(".menu-item");
 
-  // Distribute buttons evenly in a circle
-  const angleStep = 360 / items.length;
-  items.forEach((item, index) => {
+  // Distribute buttons in a circle
+  const angleStep = 360 / menuItems.length;
+  menuItems.forEach((item, index) => {
     const angle = index * angleStep;
     item.style.setProperty('--angle', `${angle}deg`);
   });
 
+  // Open/close radial menu
   logoButton.addEventListener("click", () => {
     radialMenu.classList.toggle("active");
+
+    // Optional: retrigger pulsing animation
+    logoButton.classList.remove("pulsing");
+    void logoButton.offsetWidth;
+    logoButton.classList.add("pulsing");
   });
 
-  items.forEach(btn => {
-    const target = btn.dataset.target;
-    if (target) {
+  // Handle clicks on radial menu items
+  menuItems.forEach(btn => {
+    const targetId = btn.dataset.target;
+    if (targetId) {
       btn.addEventListener("click", () => {
         radialMenu.classList.remove("active");
 
@@ -213,15 +204,14 @@ document.addEventListener("DOMContentLoaded", () => {
           screen.style.display = "none";
         });
 
-        // Show the target screen
-        const targetScreen = document.getElementById(target);
+        // Show target screen
+        const targetScreen = document.getElementById(targetId);
         if (targetScreen) {
           targetScreen.style.display = "flex";
         } else {
-          console.warn(`No screen found with ID "${target}"`);
+          console.warn(`No screen found with ID "${targetId}"`);
         }
       });
     }
   });
 });
-
