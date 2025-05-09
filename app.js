@@ -145,6 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           if (target === 'notepad-screen') goToNotepad();
           if (target === 'todo-screen') goToTodo();
+          if (target === 'stat-screen') {
+            document.getElementById('menu-screen').style.display = 'none';
+            showScreen('stat-screen');
+          }
         }, 300);
       });
     }
@@ -161,7 +165,7 @@ logoButton.addEventListener('click', function () {
 
 
 function changeStat(stat, amount) {
-  const statElement = document.querySelector(.stat[data-stat="${stat}"] span);
+  const statElement = document.querySelector(`.stat[data-stat="${stat}"] span`);
   let currentValue = parseInt(statElement.textContent);
   if (isNaN(amount)) return;
   statElement.textContent = currentValue + parseInt(amount);
@@ -200,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (targetScreen) {
           targetScreen.style.display = "flex"; // Or 'block' depending on your layout
         } else {
-          console.warn(No screen found with ID "${targetId}");
+          console.warn(`No screen found with ID "${targetId}"`);
         }
       });
     }
