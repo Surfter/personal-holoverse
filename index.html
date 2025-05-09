@@ -488,6 +488,7 @@ textarea,
 .stat-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background: #2a2a2a;
   padding: 10px;
   border-radius: 10px;
@@ -500,8 +501,41 @@ textarea,
   border: none;
   border-bottom: 2px solid #f44336;
   text-align: center;
+  margin-right: 5px;
 }
 
+.increment-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.increment-btn:hover {
+  background: #ff5f52;
+}
+#stat-screen .back-button {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  color: #f44336;
+  opacity: 0.7;
+  cursor: pointer;
+  text-transform: lowercase;
+  animation: fadeIn 500ms ease forwards;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#stat-screen .back-button:hover {
+  opacity: 0.5;
+}
+  
 </style>
 </head>
 <body>
@@ -559,38 +593,47 @@ textarea,
     <div class="stat-item">
       <span>Strength:</span>
       <input type="number" value="5" />
+      <button class="increment-btn">+1</button>
     </div>
-        <div class="stat-item">
+    <div class="stat-item">
       <span>Endurance:</span>
       <input type="number" value="4" />
+      <button class="increment-btn">+1</button>
     </div>
-        <div class="stat-item">
+    <div class="stat-item">
       <span>Agility:</span>
       <input type="number" value="2" />
+      <button class="increment-btn">+1</button>
     </div>
-        <div class="stat-item">
+    <div class="stat-item">
       <span>Stamina:</span>
       <input type="number" value="4" />
+      <button class="increment-btn">+1</button>
     </div>
-      <div class="stat-item">
+    <div class="stat-item">
       <span>Willpower:</span>
       <input type="number" value="7" />
+      <button class="increment-btn">+1</button>
     </div>
-      <div class="stat-item">
+    <div class="stat-item">
       <span>Spirit:</span>
       <input type="number" value="3" />
+      <button class="increment-btn">+1</button>
     </div>
     <div class="stat-item">
       <span>Intelligence:</span>
       <input type="number" value="7" />
+      <button class="increment-btn">+1</button>
     </div>
     <div class="stat-item">
       <span>Charisma:</span>
       <input type="number" value="3" />
+      <button class="increment-btn">+1</button>
     </div>
   </div>
+  <button class="back-button" onclick="goToMenu()">← back to menu</button>
 </div>
 
-  
+
 </body>
 </html>
