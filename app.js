@@ -1,597 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zeto</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <script defer src="app.js"></script>
-<style>
-  body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
-    color: #000000;
-    transition: all 0.3s ease;
-  }
+// DOM elements
+const splash = document.getElementById("splash");
+const menuScreen = document.getElementById("menu-screen");
+const notepadScreen = document.getElementById("notepad-screen");
+const todoScreen = document.getElementById("todo-screen");
+const statScreen = document.getElementById("stat-screen");
+const notes = document.getElementById("notes");
 
-  #splash {
-    position: fixed;
-    inset: 0;
-    background-color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
-  }
+const logoButton = document.getElementById("logo-button");
+const radialMenuContainer = document.getElementById("radial-menu-container");
+const radialMenu = document.getElementById("radial-menu");
+const menuItems = document.querySelectorAll(".menu-item");
 
-  #splash.fade-out {
-    opacity: 0;
-    pointer-events: none;
-  }
+// Splash screen transition
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    splash.classList.add("fade-out");
+    setTimeout(() => {
+      splash.style.display = "none";
+      menuScreen.style.display = "block";
+    }, 500);
+  }, 1000);
+});
 
-  .splash-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-  }
-
-  .welcome-text {
-    color: white;
-    font-size: 1.2em;
-    font-weight: 300;
-    letter-spacing: 1px;
-    font-family: sans-serif;
-    opacity: 0.8;
-    animation: fadeIn 1s ease 0.3s both;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to   { opacity: 0.8; transform: translateY(0); }
-  }
-
-#menu-screen {
-  display: none;
-  position: relative;
-  min-height: 100vh;   
-  padding: 40px 20px;
-  text-align: center;
-  overflow: hidden;    
+// Navigation helper
+function showScreen(screen) {
+  [menuScreen, notepadScreen, todoScreen, statScreen].forEach(s => s.style.display = "none");
+  screen.style.display = "flex";
+  screen.classList.add("screen-animate");
 }
 
+// Back button
+function goToMenu() {
+  showScreen(menuScreen);
+}
+window.goToMenu = goToMenu;
 
-  .menu-title {
-    font-size: 2em;
-    margin-bottom: 60px;
-    color: #8b0000;
-  }
+// Radial menu toggle
+logoButton.addEventListener("click", () => {
+  radialMenu.classList.toggle("active");
+  radialMenuContainer.classList.toggle("visible");
+  logoButton.classList.add("pulsing");
+  setTimeout(() => logoButton.classList.remove("pulsing"), 300);
+});
 
-  .tool-button {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    color: inherit;
-    cursor: pointer;
-    margin: 10px 0;
-    text-transform: lowercase;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
-  }
+// Assign angles to menu items
+menuItems.forEach((btn, i) => {
+  const angle = (i * 360 / menuItems.length) + "deg";
+  btn.style.setProperty("--angle", angle);
 
-  .tool-button:hover {
-    opacity: 0.6;
-  }
-
-  .notepad-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    padding: 60px 20px 20px; /* <-- Top padding increased */
-    text-align: center;
-  }
-
-  .section-heading {
-    font-size: 1.5em;
-    margin-bottom: 50px; /* <-- More spacing between title and content */
-    color: #8b0000;
-  }
-
-  textarea {
-    width: 100%;
-    max-width: 600px;
-    height: 70vh;
-    font-size: 1.2em;
-    padding: 15px;
-    box-sizing: border-box;
-    border: 2px solid #cccccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    color: #000000;
-    transition: all 0.3s ease;
-  }
-
-  #todo-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-    font-size: 1.1em;
-    width: 100%;
-    max-width: 500px;
-  }
-
-  #todo-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f2f2f2;
-    padding: 8px 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-  }
-
-  .todo-text {
-    flex-grow: 1;
-    cursor: pointer;
-  }
-
-  .todo-text.done {
-    text-decoration: line-through;
-    opacity: 0.6;
-  }
-
-  .delete-btn {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    color: #8b0000;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-
-  #todo-input-wrapper {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  #todo-input {
-    padding: 10px;
-    font-size: 1em;
-    width: 60%;
-    max-width: 300px;
-    border: 2px solid #cccccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    color: #000000;
-  }
-
-  .todo-action-btn {
-    background: none;
-    border: none;
-    font-size: 1em;
-    color: inherit;
-    cursor: pointer;
-    text-transform: lowercase;
-    opacity: 0.7;
-    margin: 5px 0;
-  }
-  
-  .todo-action-btn:hover {
-    opacity: 0.5;
-  }
-
-
-  .back-button {
-    background: none;
-    border: none;
-    font-size: 1em;
-    color: inherit;
-    cursor: pointer;
-    margin-top: 20px;
-    text-transform: lowercase;
-    opacity: 0.7;
-  }
-
-  .back-button:hover {
-    opacity: 0.5;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    body {
-      background-color: #121212;
-      color: #ffffff;
+  btn.addEventListener("click", () => {
+    const target = btn.dataset.target;
+    if (target) {
+      showScreen(document.getElementById(target));
+      radialMenu.classList.remove("active");
+      radialMenuContainer.classList.remove("visible");
     }
+  });
+});
 
-    textarea,
-    #todo-input {
-      background-color: #1e1e1e;
-      color: #ffffff;
-      border-color: #333333;
-    }
 
-    #todo-list li {
-      background-color: #1e1e1e;
-      border: 1px solid #333333;
-    }
+// --- Notepad ---
+notes.value = localStorage.getItem("notes") || "";
+notes.addEventListener("input", () => {
+  localStorage.setItem("notes", notes.value);
+});
 
-    .delete-btn {
-      color: #ff6666;
-    }
 
-    .todo-action-btn {
-      background-color: #000000 !important; /* override white */
-      color: #ffffff !important;
-    }
-  }
-    .todo-icon {
-    margin-right: 10px;
-    font-size: 1.2em;
-  }
-  @keyframes popOut {
-    0% {
-      opacity: 1;
-      transform: scale(1);
-      height: 48px;
-      margin: 8px 0;
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0.5) rotate(-5deg);
-      height: 0;
-      margin: 0;
-      padding: 0;
-    }
-  }
-    
-  .todo-pop-out {
-    animation: popOut 300ms ease forwards;
-    overflow: hidden;
-  }
-  @keyframes popInBounce {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
+// --- To-Do Logic ---
+const todoList = document.getElementById("todo-list");
+const todoInputWrapper = document.getElementById("todo-input-wrapper");
+const todoInput = document.getElementById("todo-input");
+
+// Load saved tasks
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
+renderTodos();
+
+function renderTodos() {
+  todoList.innerHTML = "";
+  todos.forEach((todo, index) => {
+    const li = document.createElement("li");
+    li.className = "todo-pop-in";
+
+    const span = document.createElement("span");
+    span.className = "todo-text" + (todo.done ? " done" : "");
+    span.textContent = todo.text;
+    span.onclick = () => toggleDone(index);
+
+    const del = document.createElement("button");
+    del.className = "delete-btn";
+    del.textContent = "✖";
+    del.onclick = () => removeTodo(index, li);
+
+    li.append(span, del);
+    todoList.appendChild(li);
+  });
+}
+
+function addTodo() {
+  const text = todoInput.value.trim();
+  if (text) {
+    todos.push({ text, done: false });
+    localStorage.setItem("todos", JSON.stringify(todos));
+    todoInput.value = "";
+    renderTodos();
+    hideTodoInput();
   }
 }
 
-@keyframes bounceOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-    height: auto;
-    margin: 8px 0;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.8);
-    height: 0;
-    margin: 0;
-    padding: 0;
-  }
+function removeTodo(index, li) {
+  li.classList.add("todo-pop-out");
+  setTimeout(() => {
+    todos.splice(index, 1);
+    localStorage.setItem("todos", JSON.stringify(todos));
+    renderTodos();
+  }, 300);
 }
 
-.todo-pop-in {
-  animation: popInBounce 300ms ease-out;
+function toggleDone(index) {
+  todos[index].done = !todos[index].done;
+  localStorage.setItem("todos", JSON.stringify(todos));
+  renderTodos();
 }
 
-.todo-pop-out {
-  animation: bounceOut 300ms ease forwards;
+function showTodoInput() {
+  todoInputWrapper.style.display = "flex";
+  todoInput.focus();
 }
-@keyframes screenFadeSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+function hideTodoInput() {
+  todoInputWrapper.style.display = "none";
 }
+window.addTodo = addTodo;
+window.showTodoInput = showTodoInput;
+window.hideTodoInput = hideTodoInput;
 
-.screen-animate {
-  animation: screenFadeSlideIn 400ms ease;
-}
-textarea,
-.back-button {
-  opacity: 0;
-  animation: fadeIn 500ms ease forwards;
-  animation-delay: 200ms;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-  .tool-button {
-  opacity: 0;
-  animation: fadeIn 400ms ease forwards;
-}
 
-.tool-button:nth-child(1) {
-  animation-delay: 100ms;
-}
-
-.tool-button:nth-child(2) {
-  animation-delay: 200ms;
-}
-#radial-menu-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  visibility: hidden;
-  z-index: 999;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-#radial-menu-container.visible {
-  visibility: visible;
-  opacity: 1;
-}
-#logo-button {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  font-size: 24px;
-  background-color: #111;
-  color: red;
-  border: 2px solid red;
-  cursor: pointer;
-  overflow: hidden; 
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#radial-menu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200px;
-  height: 200px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-.menu-item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #222;
-  color: white;
-  border: 2px solid red;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0); /* Centered + hidden */
-  transform-origin: center center;
-  transition: transform 0.4s ease, opacity 0.3s ease;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) rotate(var(--angle)) translate(0px) rotate(calc(-1 * var(--angle))) scale(0);
-}
-
-#radial-menu.active .menu-item {
-  opacity: 1;
-  transform: translate(-50%, -50%) rotate(var(--angle)) translate(100px) rotate(calc(-1 * var(--angle))) scale(1);
-}
-
-#logo-button img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Fills the circle, even if it crops transparent edges */
-  border-radius: 50%;
-}
-
-#radial-menu {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.menu-item {
-  --angle: 0deg;
-  transition: transform 0.4s ease, opacity 0.3s ease;
-}
-@keyframes pulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-#logo-button.pulsing {
-  animation: pulse 0.3s ease;
-}
-#stat-menu.menu {
-  background: #0d0d0d;
-  border: 2px solid #ff1a1a;
-  padding: 20px;
-  width: 300px;
-  color: #fff;
-  font-family: monospace;
-  border-radius: 12px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 20;
-}
-
-#stat-menu h2 {
-  margin-top: 0;
-  color: #ff1a1a;
-  text-align: center;
-}
-
-.stat {
-  margin-bottom: 15px;
-}
-
-.stat label {
-  display: inline-block;
-  width: 140px;
-}
-
-.stat button {
-  background: #ff1a1a;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  margin-left: 5px;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-.hidden {
-  display: none;
-}
-  #stat-screen {
-  background: #1a1a1a;
-  color: #f44336;
-  padding: 20px;
-}
-
-.stat-title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#stat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  background: #2a2a2a;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.stat-item input {
-  width: 60px;
-  background: #1a1a1a;
-  color: #f44336;
-  border: none;
-  border-bottom: 2px solid #f44336;
-  text-align: center;
-}
-
-</style>
-</head>
-<body>
-  <!-- Splash screen -->
-  <div id="splash">
-    <div class="splash-content">
-      <img src="icon-c.png" alt="logo" width="128" height="128" />
-      <p class="welcome-text">welcome.</p>
-    </div>
-  </div>
-
-  
-  <!-- Menu screen -->
-  <div id="menu-screen">
-    <h1 class="menu-title"></h1>
-<div id="radial-menu-container">
-  <button id="logo-button">
-    <img src="icon-c.png" alt="logo" />
-  </button>
-  <div id="radial-menu">
-    <button class="menu-item" data-target="notepad-screen">📝</button>
-    <button class="menu-item" data-target="todo-screen">📜</button>
-    <button class="menu-item" data-target="stat-screen">🧠</button>
-    <button class="menu-item">⚙️</button>
-  </div>
-</div>
-  </div>
-
-  <!-- Notepad screen -->
-  <div id="notepad-screen" class="notepad-screen">
-    <h2 class="section-heading">Notepad</h2>
-    <textarea id="notes" placeholder="Type your note here..."></textarea>
-    <button class="back-button" onclick="goToMenu()">← back to menu</button>
-  </div>
-
-  <!-- TO-DO SCREEN -->
-  <div id="todo-screen" class="notepad-screen">
-    <h2 class="section-heading">To-Do List</h2>
-    <ul id="todo-list"></ul>
-    <button id="show-input-button" class="todo-action-btn" onclick="showTodoInput()">add a task</button>
-    <div id="todo-input-wrapper" style="display:none;">
-      <input type="text" id="todo-input" placeholder="Add a task..." />
-      <div style="margin-top: 10px;">
-        <button class="todo-action-btn" onclick="addTodo()">add</button>
-        <button class="todo-action-btn" onclick="hideTodoInput()">cancel</button>
-      </div>
-    </div>
-    <button class="back-button" onclick="goToMenu()">← back to menu</button>
-  </div>
-
-  <!-- Stat Menu Screen -->
-<div id="stat-screen" class="screen hidden">
-  <h1 class="stat-title">Stats</h1>
-  <div id="stat-list">
-    <div class="stat-item">
-      <span>Strength:</span>
-      <input type="number" value="5" />
-    </div>
-        <div class="stat-item">
-      <span>Endurance:</span>
-      <input type="number" value="4" />
-    </div>
-        <div class="stat-item">
-      <span>Agility:</span>
-      <input type="number" value="2" />
-    </div>
-        <div class="stat-item">
-      <span>Stamina:</span>
-      <input type="number" value="4" />
-    </div>
-      <div class="stat-item">
-      <span>Willpower:</span>
-      <input type="number" value="7" />
-    </div>
-      <div class="stat-item">
-      <span>Spirit:</span>
-      <input type="number" value="3" />
-    </div>
-    <div class="stat-item">
-      <span>Intelligence:</span>
-      <input type="number" value="7" />
-    </div>
-    <div class="stat-item">
-      <span>Charisma:</span>
-      <input type="number" value="3" />
-    </div>
-  </div>
-</div>
-
-  
-</body>
-</html>
-
+// --- Stat Screen (No special logic for now) ---
