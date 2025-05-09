@@ -211,3 +211,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Add event listeners for the +1 buttons
+document.addEventListener("DOMContentLoaded", function() {
+  // Handle stat increments
+  const statScreen = document.getElementById('stat-screen');
+  if (statScreen) {
+    const incrementButtons = statScreen.querySelectorAll('.increment-btn');
+    
+    incrementButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const input = this.previousElementSibling;
+        let value = parseInt(input.value) || 0;
+        input.value = value + 1;
+        
+        // You can add animation here if desired
+        button.classList.remove('clicked');
+        void button.offsetWidth; // Trigger reflow
+        button.classList.add('clicked');
+      });
+    });
+  }
+  
+  // Make sure stat screen functions work with the menu
+  const statButton = document.querySelector('.menu-item[data-target="stat-screen"]');
+  if (statButton) {
+    statButton.addEventListener('click', function() {
+      // This code should be handled by your existing click handlers,
+      // but adding as a safeguard
+      document.getElementById('menu-screen').style.display = 'none';
+      document.getElementById('notepad-screen').style.display = 'none';
+      document.getElementById('todo-screen').style.display = 'none';
+      document.getElementById('stat-screen').style.display = 'block';
+    });
+  }
+});
