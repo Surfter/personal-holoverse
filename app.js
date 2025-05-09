@@ -1,3 +1,4 @@
+console.log("App.js is running");
 // Splash screen logic
 window.addEventListener('load', () => {
   setTimeout(() => {
@@ -165,7 +166,7 @@ logoButton.addEventListener('click', function () {
 
 
 function changeStat(stat, amount) {
-  const statElement = document.querySelector(`.stat[data-stat="${stat}"] span`);
+  const statElement = document.querySelector(`stat[data-stat="${stat}"] span`);
   let currentValue = parseInt(statElement.textContent);
   if (isNaN(amount)) return;
   statElement.textContent = currentValue + parseInt(amount);
