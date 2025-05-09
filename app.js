@@ -24,12 +24,21 @@ if (textarea) {
 }
 
 // Screen navigation helpers
-function showScreen(screenId) {
-  const screen = document.getElementById(screenId);
-  screen.style.display = screenId === 'todo-screen' ? 'flex' : 'block';
-  screen.classList.add('screen-animate');
-  setTimeout(() => screen.classList.remove('screen-animate'), 400);
+function showScreen(targetId) {
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(screen => {
+    if (screen.id === targetId) {
+      screen.classList.remove('hidden');
+      screen.classList.add('screen-animate');
+      screen.style.display = 'flex'; // Ensure the target screen is displayed
+    } else {
+      screen.classList.add('hidden');
+      screen.classList.remove('screen-animate');
+      screen.style.display = 'none'; // Hide other screens
+    }
+  });
 }
+
 
 function goToNotepad() {
   document.getElementById('menu-screen').style.display = 'none';
@@ -179,30 +188,16 @@ function toggleStatMenu() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Grabs all radial menu buttons with a 'data-target' attribute
   const menuButtons = document.querySelectorAll(".menu-item");
 
-  // Add click event listeners to each button
   menuButtons.forEach(button => {
     const targetId = button.dataset.target;
 
-    // Ensure the button actually has a target screen ID
     if (targetId) {
       button.addEventListener("click", () => {
-        // Step 1: Hide all screens (notepad, stats, etc.)
-        const allScreens = document.querySelectorAll(".notepad-screen, .screen");
-        allScreens.forEach(screen => {
-          screen.style.display = "none";
-        });
-
-        // Step 2: Show the target screen by ID
-        const targetScreen = document.getElementById(targetId);
-        if (targetScreen) {
-          targetScreen.style.display = "flex"; // Or 'block' depending on your layout
-        } else {
-          console.warn(No screen found with ID "${targetId}");
-        }
+        showScreen(targetId); // Use the standardized function
       });
     }
   });
 });
+
