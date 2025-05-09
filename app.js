@@ -181,17 +181,15 @@ document.addEventListener("DOMContentLoaded", () => {
     item.style.setProperty('--angle', `${angle}deg`);
   });
 
-  // Open/close radial menu
+  // Logo button toggles menu + animation
   logoButton.addEventListener("click", () => {
     radialMenu.classList.toggle("active");
-
-    // Optional: retrigger pulsing animation
     logoButton.classList.remove("pulsing");
     void logoButton.offsetWidth;
     logoButton.classList.add("pulsing");
   });
 
-  // Handle clicks on radial menu items
+  // Click each radial button to switch screens
   menuItems.forEach(btn => {
     const targetId = btn.dataset.target;
     if (targetId) {
@@ -204,12 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
           screen.style.display = "none";
         });
 
-        // Show target screen
+        // Show the selected screen
         const targetScreen = document.getElementById(targetId);
         if (targetScreen) {
           targetScreen.style.display = "flex";
-        } else {
-          console.warn(`No screen found with ID "${targetId}"`);
         }
       });
     }
