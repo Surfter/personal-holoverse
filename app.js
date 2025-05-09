@@ -212,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Add event listeners for the +1 buttons
 document.addEventListener("DOMContentLoaded", function() {
   // Handle stat increments
   const statScreen = document.getElementById('stat-screen');
@@ -225,24 +224,33 @@ document.addEventListener("DOMContentLoaded", function() {
         let value = parseInt(input.value) || 0;
         input.value = value + 1;
         
-        // You can add animation here if desired
+        // Add a brief highlight effect
         button.classList.remove('clicked');
         void button.offsetWidth; // Trigger reflow
         button.classList.add('clicked');
       });
     });
   }
+});
+
+// Make sure the stat screen is properly hooked into navigation
+function goToStatScreen() {
+  document.getElementById('menu-screen').style.display = 'none';
+  document.getElementById('notepad-screen').style.display = 'none';
+  document.getElementById('todo-screen').style.display = 'none';
   
-  // Make sure stat screen functions work with the menu
+  const statScreen = document.getElementById('stat-screen');
+  statScreen.style.display = 'flex';
+  statScreen.classList.add('screen-animate');
+  setTimeout(() => statScreen.classList.remove('screen-animate'), 400);
+}
+
+// Update the event listener for stat screen button if needed
+document.addEventListener("DOMContentLoaded", function() {
   const statButton = document.querySelector('.menu-item[data-target="stat-screen"]');
   if (statButton) {
     statButton.addEventListener('click', function() {
-      // This code should be handled by your existing click handlers,
-      // but adding as a safeguard
-      document.getElementById('menu-screen').style.display = 'none';
-      document.getElementById('notepad-screen').style.display = 'none';
-      document.getElementById('todo-screen').style.display = 'none';
-      document.getElementById('stat-screen').style.display = 'block';
+      goToStatScreen();
     });
   }
 });
