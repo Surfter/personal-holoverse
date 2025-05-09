@@ -186,6 +186,12 @@ function toggleStatMenu() {
   menu.classList.toggle("hidden");
 }
 
+function goToStats() {
+  document.getElementById('menu-screen').style.display = 'none';
+  document.getElementById('notepad-screen').style.display = 'none';
+  document.getElementById('todo-screen').style.display = 'none';
+  showScreen('stat-screen');
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const menuButtons = document.querySelectorAll(".menu-item");
@@ -196,6 +202,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (targetId) {
       button.addEventListener("click", () => {
         showScreen(targetId); // Use the standardized function
+        items.forEach(btn => {
+  const target = btn.dataset.target;
+  if (target) {
+    btn.addEventListener('click', () => {
+      radialMenu.classList.remove('active');
+      setTimeout(() => {
+        if (target === 'notepad-screen') goToNotepad();
+        else if (target === 'todo-screen') goToTodo();
+        else if (target === 'stat-screen') goToStats();
+      }, 300);
+    });
+  }
+});
+
       });
     }
   });
