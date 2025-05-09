@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (targetScreen) {
           targetScreen.style.display = "flex"; // Or 'block' depending on your layout
         } else {
-          console.warn(No screen found with ID "${targetId}");
+          console.warn(`No screen found with ID "${targetId}"`);
         }
       });
     }
