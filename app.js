@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const angleStep = 360 / items.length;
   items.forEach((item, index) => {
     const angle = index * angleStep;
-    item.style.setProperty('--angle', ${angle}deg);
+    item.style.setProperty('--angle', `${angle}deg`);
   });
 
   logoButton.addEventListener("click", () => {
