@@ -24,19 +24,12 @@ if (textarea) {
 }
 
 // Screen navigation helpers
-function showScreen(targetId) {
-  const screens = document.querySelectorAll('.screen');
-  screens.forEach(screen => {
-    if (screen.id === targetId) {
-      screen.classList.remove('hidden');
-      screen.classList.add('screen-animate');
-    } else {
-      screen.classList.add('hidden');
-      screen.classList.remove('screen-animate');
-    }
-  });
+function showScreen(screenId) {
+  const screen = document.getElementById(screenId);
+  screen.style.display = screenId === 'todo-screen' ? 'flex' : 'block';
+  screen.classList.add('screen-animate');
+  setTimeout(() => screen.classList.remove('screen-animate'), 400);
 }
-
 
 function goToNotepad() {
   document.getElementById('menu-screen').style.display = 'none';
@@ -127,7 +120,22 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
 
+// Radial menu logic
+document.addEventListener("DOMContentLoaded", () => {
+  const logoButton = document.getElementById("logo-button");
+  const radialMenu = document.getElementById("radial-menu");
+  const items = radialMenu.querySelectorAll(".menu-item");
 
+  // Distribute buttons evenly in a circle
+  const angleStep = 360 / items.length;
+  items.forEach((item, index) => {
+    const angle = index * angleStep;
+    item.style.setProperty('--angle', ${angle}deg);
+  });
+
+  logoButton.addEventListener("click", () => {
+    radialMenu.classList.toggle("active");
+  });
 
   items.forEach(btn => {
     const target = btn.dataset.target;
@@ -153,7 +161,7 @@ logoButton.addEventListener('click', function () {
 
 
 function changeStat(stat, amount) {
-  const statElement = document.querySelector(`.stat[data-stat="${stat}"] span`);
+  const statElement = document.querySelector(.stat[data-stat="${stat}"] span);
   let currentValue = parseInt(statElement.textContent);
   if (isNaN(amount)) return;
   statElement.textContent = currentValue + parseInt(amount);
@@ -169,43 +177,30 @@ function toggleStatMenu() {
   menu.classList.toggle("hidden");
 }
 
+
 document.addEventListener("DOMContentLoaded", () => {
-  const logoButton = document.getElementById("logo-button");
-  const radialMenu = document.getElementById("radial-menu");
-  const menuItems = radialMenu.querySelectorAll(".menu-item");
+  // Grabs all radial menu buttons with a 'data-target' attribute
+  const menuButtons = document.querySelectorAll(".menu-item");
 
-  // Distribute buttons in a circle
-  const angleStep = 360 / menuItems.length;
-  menuItems.forEach((item, index) => {
-    const angle = index * angleStep;
-    item.style.setProperty('--angle', `${angle}deg`);
-  });
+  // Add click event listeners to each button
+  menuButtons.forEach(button => {
+    const targetId = button.dataset.target;
 
-  // Logo button toggles menu + animation
-  logoButton.addEventListener("click", () => {
-    radialMenu.classList.toggle("active");
-    logoButton.classList.remove("pulsing");
-    void logoButton.offsetWidth;
-    logoButton.classList.add("pulsing");
-  });
-
-  // Click each radial button to switch screens
-  menuItems.forEach(btn => {
-    const targetId = btn.dataset.target;
+    // Ensure the button actually has a target screen ID
     if (targetId) {
-      btn.addEventListener("click", () => {
-        radialMenu.classList.remove("active");
-
-        // Hide all screens
-        const allScreens = document.querySelectorAll(".screen");
+      button.addEventListener("click", () => {
+        // Step 1: Hide all screens (notepad, stats, etc.)
+        const allScreens = document.querySelectorAll(".notepad-screen, .screen");
         allScreens.forEach(screen => {
           screen.style.display = "none";
         });
 
-        // Show the selected screen
+        // Step 2: Show the target screen by ID
         const targetScreen = document.getElementById(targetId);
         if (targetScreen) {
-          targetScreen.style.display = "flex";
+          targetScreen.style.display = "flex"; // Or 'block' depending on your layout
+        } else {
+          console.warn(No screen found with ID "${targetId}");
         }
       });
     }
