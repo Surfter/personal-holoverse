@@ -743,7 +743,42 @@ input[type=number] {
   </div>
   <button class="back-button" onclick="goToMenu()">← back to menu</button>
 </div>
-
+<div id="profile-screen" class="screen">
+  <h1 class="profile-title">Welcome, Player</h1>
+  
+  <div id="profile-container">
+    <div class="profile-row">
+      <div class="profile-icon">✧</div>
+      <span class="profile-label">Level:</span>
+      <div class="profile-value" id="player-level">--</div>
+    </div>
+    
+    <div class="profile-row">
+      <div class="profile-icon">☆</div>
+      <span class="profile-label">Rank:</span>
+      <div class="profile-value" id="player-rank">--</div>
+    </div>
+    
+    <div class="profile-section">
+      <div class="profile-section-header">
+        <span class="profile-section-title">Titles</span>
+        <button id="show-title-input-button" class="profile-action-btn" onclick="showTitleInput()">add title</button>
+      </div>
+      
+      <div id="title-input-wrapper" style="display:none;">
+        <input type="text" id="title-input" placeholder="Add a title..." />
+        <div style="margin-top: 10px;">
+          <button class="profile-action-btn" onclick="addTitle()">add</button>
+          <button class="profile-action-btn" onclick="hideTitleInput()">cancel</button>
+        </div>
+      </div>
+      
+      <ul id="titles-list"></ul>
+    </div>
+  </div>
+  
+  <button class="back-button" onclick="goToMenu()">← back to menu</button>
+</div>
 
 </body>
 </html>
