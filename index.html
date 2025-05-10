@@ -17,38 +17,45 @@
     transition: all 0.3s ease;
   }
 
-  #splash {
-    position: fixed;
-    inset: 0;
-    background-color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
-  }
+#splash {
+  position: fixed;
+  inset: 0;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
 
-  #splash.fade-out {
-    opacity: 0;
-    pointer-events: none;
-  }
+#splash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
 
-  .splash-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-  }
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em; /* Reduced from 1em to 0.5em */
+}
 
-  .welcome-text {
-    color: white;
-    font-size: 1.2em;
-    font-weight: 300;
-    letter-spacing: 1px;
-    font-family: sans-serif;
-    opacity: 0.8;
-    animation: fadeIn 1s ease 0.3s both;
-  }
+/* Add some negative margin to bring elements even closer */
+.splash-content img {
+  margin-bottom: -10px; /* Add negative margin to pull the welcome text closer */
+}
+
+.welcome-text {
+  color: white;
+  font-size: 1.2em;
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-family: sans-serif;
+  opacity: 0.8;
+  animation: fadeIn 1s ease 0.3s both;
+  margin-top: 0; /* Ensure no extra spacing from margin */
+  padding-top: 0; /* Ensure no extra spacing from padding */
+}
 
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
@@ -638,7 +645,7 @@ input[type=number] {
 
   <!-- Stat Menu Screen -->
 <div id="stat-screen" class="screen">
-  <h1 class="stat-title">Stats</h1>
+  <h1 class="stat-title">Status</h1>
   <div id="stat-container">
     <div class="stat-row">
       <span class="stat-label">Strength:</span>
