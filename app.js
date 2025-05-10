@@ -507,7 +507,7 @@ function loadTitles() {
 
     const icon = document.createElement('span');
     icon.className = 'title-icon';
-    icon.textContent = '👑';
+    icon.textContent = '🎖';
 
     const span = document.createElement('span');
     span.className = 'title-text';
