@@ -413,3 +413,167 @@ document.addEventListener("visibilitychange", function() {
     }
   }
 });
+
+
+function calculatePlayerLevel() {
+  try {
+    const savedStats = localStorage.getItem('characterStats');
+    
+    if (savedStats) {
+      const stats = JSON.parse(savedStats);
+      let total = 0;
+      let count = 0;
+      
+      // Calculate sum of all stats
+      Object.values(stats).forEach(value => {
+        const statValue = parseInt(value);
+        if (!isNaN(statValue)) {
+          total += statValue;
+          count++;
+        }
+      });
+      
+      // Calculate the mean (average) if we have stats
+      if (count > 0) {
+        const level = Math.floor(total / count);
+        return level;
+      }
+    }
+    
+    // Default level if no stats found
+    return 1;
+  } catch (error) {
+    console.error('Error calculating player level:', error);
+    return 1; // Default level on error
+  }
+}
+
+// Determine player rank based on level
+function determinePlayerRank(level) {
+  if (level >= 90) return "S Rank";
+  if (level >= 75) return "A Rank";
+  if (level >= 60) return "B Rank";
+  if (level >= 45) return "C Rank";
+  if (level >= 30) return "D Rank";
+  if (level >= 15) return "E Rank";
+  return "F Rank";
+}
+
+// Update profile information
+function updateProfileInfo() {
+  const level = calculatePlayerLevel();
+  const rank = determinePlayerRank(level);
+  
+  // Update DOM elements
+  document.getElementById('player-level').textContent = level;
+  document.getElementById('player-rank').textContent = rank;
+}
+
+// Title management
+function showTitleInput() {
+  document.getElementById('show-title-input-button').style.display = 'none';
+  document.getElementById('title-input-wrapper').style.display = 'flex';
+  document.getElementById('title-input').focus();
+}
+
+function hideTitleInput() {
+  document.getElementById('title-input-wrapper').style.display = 'none';
+  document.getElementById('show-title-input-button').style.display = 'inline-block';
+}
+
+function addTitle() {
+  const input = document.getElementById('title-input');
+  const title = input.value.trim();
+  
+  if (title) {
+    const titles = JSON.parse(localStorage.getItem('playerTitles') || '[]');
+    titles.push({ text: title });
+    localStorage.setItem('playerTitles', JSON.stringify(titles));
+    
+    input.value = '';
+    hideTitleInput();
+    loadTitles();
+  }
+}
+
+function loadTitles() {
+  const list = document.getElementById('titles-list');
+  list.innerHTML = '';
+  const titles = JSON.parse(localStorage.getItem('playerTitles') || '[]');
+
+  titles.forEach((title, index) => {
+    const li = document.createElement('li');
+    li.classList.add('title-pop-in');
+
+    const icon = document.createElement('span');
+    icon.className = 'title-icon';
+    icon.textContent = '👑';
+
+    const span = document.createElement('span');
+    span.className = 'title-text';
+    span.textContent = title.text;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-title-btn';
+    delBtn.textContent = '×';
+    delBtn.onclick = () => {
+      li.classList.add('title-pop-out');
+      setTimeout(() => {
+        titles.splice(index, 1);
+        localStorage.setItem('playerTitles', JSON.stringify(titles));
+        loadTitles();
+      }, 300);
+    };
+
+    li.appendChild(icon);
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    list.appendChild(li);
+  });
+}
+
+function goToProfileScreen() {
+  // Hide all other screens
+  document.getElementById('menu-screen').style.display = 'none';
+  document.getElementById('notepad-screen').style.display = 'none';
+  document.getElementById('todo-screen').style.display = 'none';
+  document.getElementById('stat-screen').style.display = 'none';
+  
+  // Show profile screen
+  showScreen('profile-screen');
+  
+  // Update profile information
+  updateProfileInfo();
+  
+  // Load titles
+  loadTitles();
+}
+
+// Add profile screen to radial menu
+document.addEventListener("DOMContentLoaded", function() {
+  // Set up the gear icon to go to profile
+  const gearButton = document.querySelector('.menu-item:nth-child(4)');
+  if (gearButton) {
+    gearButton.dataset.target = 'profile-screen';
+    gearButton.addEventListener('click', function() {
+      setTimeout(() => {
+        goToProfileScreen();
+      }, 300);
+    });
+  }
+
+  // Prepare profile input event handlers
+  const profileScreen = document.getElementById('profile-screen');
+  if (profileScreen) {
+    // Add any specific event handlers for the profile screen here
+    document.getElementById('show-title-input-button').addEventListener('click', showTitleInput);
+    
+    // Set up title input keypress handler for adding with Enter key
+    const titleInput = document.getElementById('title-input');
+    titleInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addTitle();
+      }
+    });
+  }
+});
