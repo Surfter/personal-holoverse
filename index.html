@@ -471,9 +471,22 @@ textarea,
   display: none;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   padding: 40px 20px;
   min-height: 100vh;
   background: #121212;
+  position: fixed; /* Fix positioning */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%; /* Ensure full width */
+  overflow-y: auto; /* Enable scrolling for content */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+  body #stat-screen {
+  margin: 0 auto;
+  max-width: 100%;
 }
 
 .stat-title {
