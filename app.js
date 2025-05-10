@@ -27,7 +27,23 @@ if (textarea) {
 // Screen navigation helpers
 function showScreen(screenId) {
   const screen = document.getElementById(screenId);
-  screen.style.display = screenId === 'todo-screen' ? 'flex' : 'block';
+  
+  // Clear any previous instances that might be in the DOM
+  const allScreens = document.querySelectorAll('.notepad-screen, .screen');
+  allScreens.forEach(s => {
+    // First hide all screens
+    s.style.display = 'none';
+    
+    // If this is a duplicate of our target screen that got added to menu, remove it
+    if (s.id === screenId && s !== screen) {
+      s.parentNode.removeChild(s);
+    }
+  });
+  
+  // Now show the real screen with proper display property
+  screen.style.display = screenId === 'todo-screen' ? 'flex' : 
+                         screenId === 'stat-screen' ? 'flex' : 'block';
+  
   screen.classList.add('screen-animate');
   setTimeout(() => screen.classList.remove('screen-animate'), 400);
 }
@@ -45,8 +61,12 @@ function goToTodo() {
 }
 
 function goToMenu() {
-  document.getElementById('notepad-screen').style.display = 'none';
-  document.getElementById('todo-screen').style.display = 'none';
+  // Hide all screens
+  document.querySelectorAll('.notepad-screen, .screen').forEach(screen => {
+    screen.style.display = 'none';
+  });
+  
+  // Show menu
   showScreen('menu-screen');
 }
 
@@ -233,18 +253,13 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-// Make sure the stat screen is properly hooked into navigation
 function goToStatScreen() {
   document.getElementById('menu-screen').style.display = 'none';
   document.getElementById('notepad-screen').style.display = 'none';
   document.getElementById('todo-screen').style.display = 'none';
   
-  const statScreen = document.getElementById('stat-screen');
-  statScreen.style.display = 'flex';
-  statScreen.classList.add('screen-animate');
-  setTimeout(() => statScreen.classList.remove('screen-animate'), 400);
+  showScreen('stat-screen');
 }
-
 // Update the event listener for stat screen button if needed
 document.addEventListener("DOMContentLoaded", function() {
   const statButton = document.querySelector('.menu-item[data-target="stat-screen"]');
