@@ -512,15 +512,15 @@ textarea,
 }
 
 .stat-row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
   align-items: center;
   background: #1e1e1e;
   padding: 15px;
-  border-radius: 0; /* Remove border radius for seamless connection */
+  border-radius: 0;
   border: 1px solid #ff4f4f;
-  margin-bottom: -1px; /* Negative margin to overlap borders */
-  position: relative; /* For z-index to work */
+  margin-bottom: -1px;
+  position: relative;
 }
 
 /* Add border radius only to first and last stat rows */
@@ -532,7 +532,7 @@ textarea,
 .stat-row:last-child {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  margin-bottom: 0; /* Remove negative margin from last item */
+  margin-bottom: 0;
 }
 
   /* Add hover effect to make active row more visible */
@@ -543,10 +543,16 @@ textarea,
 .stat-row {
   transition: background 0.15s ease, transform 0.15s ease;
 }
-  
+
+.stat-icon {
+  color: #ff4f4f;
+  font-size: 1.2rem;
+  text-align: center;
+}
 .stat-label {
   font-size: 1.2rem;
   color: #ff4f4f;
+  padding-left: 10px;
 }
 
 .stat-controls {
@@ -666,61 +672,69 @@ input[type=number] {
     <button class="back-button" onclick="goToMenu()">← back to menu</button>
   </div>
 
-  <!-- Stat Menu Screen -->
+<!-- Stat Menu Screen -->
 <div id="stat-screen" class="screen">
   <h1 class="stat-title">✦ Status</h1>
   <div id="stat-container">
     <div class="stat-row">
-      <span class="stat-label">⚔︎ Strength:</span>
+      <div class="stat-icon">⚔︎</div>
+      <span class="stat-label">Strength:</span>
       <div class="stat-controls">
         <input type="number" value="7" class="stat-input" />
         <button class="increment-btn">+1</button>
       </div>
     </div>
     <div class="stat-row">
-      <span class="stat-label">❤ Vitality:</span>
+      <div class="stat-icon">❤</div>
+      <span class="stat-label">Vitality:</span>
       <div class="stat-controls">
         <input type="number" value="4" class="stat-input" />
         <button class="increment-btn">+1</button>
       </div>
     </div>
     <div class="stat-row">
-      <span class="stat-label">➳ Agility:</span>
+      <div class="stat-icon">➳</div>
+      <span class="stat-label">Agility:</span>
       <div class="stat-controls">
         <input type="number" value="2" class="stat-input" />
         <button class="increment-btn">+1</button>
       </div>
     </div>
     <div class="stat-row">
-      <span class="stat-label">⚡︎ Stamina:</span>
+      <div class="stat-icon">⚡︎</div>
+      <span class="stat-label">Stamina:</span>
       <div class="stat-controls">
         <input type="number" value="4" class="stat-input" />
         <button class="increment-btn">+1</button>
       </div>
     </div>
     <div class="stat-row">
-      <span class="stat-label">♚ Willpower:</span>
+      <div class="stat-icon">♚</div>
+      <span class="stat-label">Willpower:</span>
       <div class="stat-controls">
         <input type="number" value="7" class="stat-input" />
         <button class="increment-btn">+1</button>
       </div>
     </div>
     <div class="stat-row">
-      <span class="stat-label">☀︎ Spirit:</span>
+      <div class="stat-icon">☀︎</div>
+      <span class="stat-label">Spirit:</span>
       <div class="stat-controls">
         <input type="number" value="3" class="stat-input" />
         <button class="increment-btn">+1</button>
       </div>
     </div>
     <div class="stat-row">
-      <span class="stat-label">✏︎ Intelligence:</span>
+      <div class="stat-icon">✏︎</div>
+      <span class="stat-label">Intelligence:</span>
       <div class="stat-controls">
         <input type="number" value="7" class="stat-input" />
         <button class="increment-btn">+1</button>
       </div>
     </div>
     <div class="stat-row">
-      <span class="stat-label">☝︎ Charisma:</span>
+      <div class="stat-icon">☝︎</div>
+      <span class="stat-label">Charisma:</span>
       <div class="stat-controls">
         <input type="number" value="3" class="stat-input" />
         <button class="increment-btn">+1</button>
