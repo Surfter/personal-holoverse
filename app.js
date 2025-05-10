@@ -577,3 +577,30 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
+
+  //NEW CHANGES
+
+function showScreen(screenId) {
+  const screen = document.getElementById(screenId);
+  
+  // Clear any previous instances that might be in the DOM
+  const allScreens = document.querySelectorAll('.notepad-screen, .screen');
+  allScreens.forEach(s => {
+    // First hide all screens
+    s.style.display = 'none';
+    
+    // If this is a duplicate of our target screen that got added to menu, remove it
+    if (s.id === screenId && s !== screen) {
+      s.parentNode.removeChild(s);
+    }
+  });
+  
+  // Now show the real screen with proper display property
+  // Added profile-screen to flex display type screens
+  screen.style.display = (screenId === 'todo-screen' || 
+                          screenId === 'stat-screen' || 
+                          screenId === 'profile-screen') ? 'flex' : 'block';
+  
+  screen.classList.add('screen-animate');
+  setTimeout(() => screen.classList.remove('screen-animate'), 400);
+}
