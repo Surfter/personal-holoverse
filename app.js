@@ -269,3 +269,147 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
+
+
+// Stats saving and loading functionality - Mobile Optimized
+
+// Function to save all stats to local storage
+function saveStats() {
+  try {
+    const statRows = document.querySelectorAll('.stat-row');
+    const stats = {};
+    
+    statRows.forEach(row => {
+      // Extract stat name from the label (remove the colon)
+      const statName = row.querySelector('.stat-label').textContent.replace(':', '');
+      const statValue = row.querySelector('.stat-input').value;
+      stats[statName] = statValue;
+    });
+    
+    // Save to localStorage
+    localStorage.setItem('characterStats', JSON.stringify(stats));
+    console.log('Stats saved:', stats);
+    return true;
+  } catch (error) {
+    // Handle potential localStorage errors (quota exceeded, private browsing mode, etc.)
+    console.error('Error saving stats:', error);
+    return false;
+  }
+}
+
+// Function to load stats from local storage
+function loadStats() {
+  try {
+    const savedStats = localStorage.getItem('characterStats');
+    
+    if (savedStats) {
+      const stats = JSON.parse(savedStats);
+      const statRows = document.querySelectorAll('.stat-row');
+      
+      statRows.forEach(row => {
+        const statName = row.querySelector('.stat-label').textContent.replace(':', '');
+        const input = row.querySelector('.stat-input');
+        
+        // If we have a saved value for this stat, use it
+        if (stats[statName] !== undefined) {
+          input.value = stats[statName];
+        }
+      });
+      
+      console.log('Stats loaded:', stats);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error loading stats:', error);
+    return false;
+  }
+}
+
+// Function to handle increment button clicks
+function setupStatIncrements() {
+  const incrementButtons = document.querySelectorAll('.increment-btn');
+  
+  // Use touchend for better mobile performance
+  incrementButtons.forEach(button => {
+    // Remove any existing event listeners to prevent duplicates
+    button.removeEventListener('click', handleIncrement);
+    button.removeEventListener('touchend', handleIncrement);
+    
+    // Add both click (desktop) and touchend (mobile) events
+    button.addEventListener('click', handleIncrement);
+    button.addEventListener('touchend', handleIncrement);
+  });
+  
+  // Also save when input values are changed directly
+  const statInputs = document.querySelectorAll('.stat-input');
+  statInputs.forEach(input => {
+    // Remove existing listeners to prevent duplicates
+    input.removeEventListener('change', saveStats);
+    input.removeEventListener('blur', saveStats);
+    
+    // Add listeners
+    input.addEventListener('change', saveStats);
+    input.addEventListener('blur', saveStats);
+  });
+}
+
+// Separate handler function for increment buttons
+function handleIncrement(event) {
+  // Prevent ghost clicks on mobile
+  event.preventDefault();
+  
+  const button = this;
+  const input = button.previousElementSibling;
+  let value = parseInt(input.value) || 0;
+  input.value = value + 1;
+  
+  // Add a brief highlight effect
+  button.classList.remove('clicked');
+  void button.offsetWidth; // Trigger reflow
+  button.classList.add('clicked');
+  
+  // Save stats after incrementing
+  saveStats();
+}
+
+// Initialize stats functionality when the document is ready
+document.addEventListener("DOMContentLoaded", function() {
+  // Set up event listeners for the stat screen
+  const statScreen = document.getElementById('stat-screen');
+  if (statScreen) {
+    // First load saved stats
+    loadStats();
+    
+    // Then set up increment buttons
+    setupStatIncrements();
+  }
+});
+
+// Add event listener when stat screen becomes visible
+// This ensures the stats load properly even if DOMContentLoaded already fired
+function onStatScreenShow() {
+  loadStats();
+  setupStatIncrements();
+}
+
+// Update the existing showScreen function to call onStatScreenShow
+const originalShowScreen = window.showScreen || function() {};
+window.showScreen = function(screenId) {
+  originalShowScreen(screenId);
+  
+  if (screenId === 'stat-screen') {
+    // Small timeout to ensure the screen is fully displayed
+    setTimeout(onStatScreenShow, 50);
+  }
+};
+
+// Add listeners for app visibility changes (important for iOS)
+document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState === "visible") {
+    const statScreen = document.getElementById('stat-screen');
+    if (statScreen && window.getComputedStyle(statScreen).display !== 'none') {
+      loadStats(); // Reload stats when coming back to the app
+    }
+  }
+});
