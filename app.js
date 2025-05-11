@@ -678,4 +678,6 @@ function loadSkills() {
     li.appendChild(delBtn);
     list.appendChild(li);
   });
+  }
+}
 
