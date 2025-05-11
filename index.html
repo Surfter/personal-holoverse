@@ -962,6 +962,33 @@ input[type=number] {
   .todo-pop-out {
     animation: bounceOut 300ms ease forwards;
   }
+  .skill-text {
+  flex-grow: 1;
+  color: #ffffff;
+  padding-left: 10px;
+}
+
+.skill-icon {
+  color: cyan; /* Different color from gold titles */
+  margin-right: 5px;
+}
+
+.delete-skill-btn {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  color: #ff4f4f;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.skill-pop-in {
+  animation: popInBounce 300ms ease-out;
+}
+
+.skill-pop-out {
+  animation: bounceOut 300ms ease forwards;
+}
 </style>
 </head>
 <body>
@@ -1115,6 +1142,22 @@ input[type=number] {
       
       <ul id="titles-list"></ul>
     </div>
+  <div class="profile-section">
+  <div class="profile-section-header">
+    <span class="profile-section-title">Skills</span>
+    <button id="show-skill-input-button" class="profile-action-btn" onclick="showSkillInput()">add skill</button>
+  </div>
+  
+  <div id="skill-input-wrapper" style="display:none;">
+    <input type="text" id="skill-input" placeholder="Add a skill..." />
+    <div style="margin-top: 10px;">
+      <button class="profile-action-btn" onclick="addSkill()">add</button>
+      <button class="profile-action-btn" onclick="hideSkillInput()">cancel</button>
+    </div>
+  </div>
+  
+  <ul id="skills-list"></ul>
+</div>
   </div>
   
   <button class="back-button" onclick="goToMenu()">← back to menu</button>
