@@ -654,7 +654,7 @@ function loadSkills() {
 
     const icon = document.createElement('span');
     icon.className = 'skill-icon';
-    icon.textContent = '✴';
+    icon.textContent = '💫';
 
     const span = document.createElement('span');
     span.className = 'skill-text';
