@@ -574,9 +574,7 @@ document.addEventListener("DOMContentLoaded", function() {
     titleInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         addTitle();
-      }
-    });
-            // Add this in the profile initialization section
+                    // Add this in the profile initialization section
     document.getElementById('show-skill-input-button').addEventListener('click', showSkillInput);
     
     // Set up skill input keypress handler for adding with Enter key
@@ -679,5 +677,5 @@ function loadSkills() {
     list.appendChild(li);
   });
   }
-}
+
 
