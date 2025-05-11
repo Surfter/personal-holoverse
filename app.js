@@ -450,11 +450,11 @@ function calculatePlayerLevel() {
 
 // Determine player rank based on level
 function determinePlayerRank(level) {
-  if (level >= 90) return "S Rank";
-  if (level >= 75) return "A Rank";
-  if (level >= 60) return "B Rank";
-  if (level >= 45) return "C Rank";
-  if (level >= 30) return "D Rank";
+  if (level >= 1500) return "S Rank";
+  if (level >= 800) return "A Rank";
+  if (level >= 300) return "B Rank";
+  if (level >= 150) return "C Rank";
+  if (level >= 50) return "D Rank";
   if (level >= 15) return "E Rank";
   return "F Rank";
 }
@@ -545,8 +545,9 @@ function goToProfileScreen() {
   // Update profile information
   updateProfileInfo();
   
-  // Load titles
+  // Load titles and skills
   loadTitles();
+  loadSkills();
 }
 
 // Add profile screen to radial menu
@@ -573,8 +574,17 @@ document.addEventListener("DOMContentLoaded", function() {
     titleInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         addTitle();
+        // Add this in the profile initialization section
+    document.getElementById('show-skill-input-button').addEventListener('click', showSkillInput);
+    
+    // Set up skill input keypress handler for adding with Enter key
+    const skillInput = document.getElementById('skill-input');
+    skillInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addSkill();
       }
     });
+    
   }
 });
 
@@ -603,4 +613,67 @@ function showScreen(screenId) {
   
   screen.classList.add('screen-animate');
   setTimeout(() => screen.classList.remove('screen-animate'), 400);
+}
+
+// Skills management
+function showSkillInput() {
+  document.getElementById('show-skill-input-button').style.display = 'none';
+  document.getElementById('skill-input-wrapper').style.display = 'flex';
+  document.getElementById('skill-input').focus();
+}
+
+function hideSkillInput() {
+  document.getElementById('skill-input-wrapper').style.display = 'none';
+  document.getElementById('show-skill-input-button').style.display = 'inline-block';
+}
+
+function addSkill() {
+  const input = document.getElementById('skill-input');
+  const skill = input.value.trim();
+  
+  if (skill) {
+    const skills = JSON.parse(localStorage.getItem('playerSkills') || '[]');
+    skills.push({ text: skill });
+    localStorage.setItem('playerSkills', JSON.stringify(skills));
+    
+    input.value = '';
+    hideSkillInput();
+    loadSkills();
+  }
+}
+
+function loadSkills() {
+  const list = document.getElementById('skills-list');
+  list.innerHTML = '';
+  const skills = JSON.parse(localStorage.getItem('playerSkills') || '[]');
+
+  skills.forEach((skill, index) => {
+    const li = document.createElement('li');
+    li.classList.add('skill-pop-in');
+
+    const icon = document.createElement('span');
+    icon.className = 'skill-icon';
+    icon.textContent = '⚡';
+
+    const span = document.createElement('span');
+    span.className = 'skill-text';
+    span.textContent = skill.text;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-skill-btn';
+    delBtn.textContent = '×';
+    delBtn.onclick = () => {
+      li.classList.add('skill-pop-out');
+      setTimeout(() => {
+        skills.splice(index, 1);
+        localStorage.setItem('playerSkills', JSON.stringify(skills));
+        loadSkills();
+      }, 300);
+    };
+
+    li.appendChild(icon);
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    list.appendChild(li);
+  });
 }
